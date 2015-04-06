@@ -5,17 +5,37 @@
  */
 package thesisdatabase;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author waltersquires
  */
 public class ThesisFrame extends java.awt.Frame {
-
+    private ArrayList<javax.swing.JPanel> panels;
     /**
      * Creates new form ThesisFrame
      */
     public ThesisFrame() {
         initComponents();
+        panels = new ArrayList();
+        panels.add(addAppPanel1);
+        panels.add(loginPanel2);
+        panels.add(queriesPanel1);
+
+
+        
+    }
+    
+    public void selectPanel(int s)
+    {
+        for (int i = 0; i< panels.size();i++)
+        {
+            if (s == i)
+                panels.get(i).setVisible(true);
+            else
+                panels.get(i).setVisible(false);
+        }
     }
 
     /**
@@ -27,6 +47,8 @@ public class ThesisFrame extends java.awt.Frame {
     private void initComponents() {
 
         loginPanel2 = new thesisdatabase.LoginPanel();
+        addAppPanel1 = new thesisdatabase.AddAppPanel();
+        queriesPanel1 = new thesisdatabase.queriesPanel();
 
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -40,15 +62,21 @@ public class ThesisFrame extends java.awt.Frame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(47, 47, 47)
-                .addComponent(loginPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(53, Short.MAX_VALUE))
+                .addComponent(loginPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(addAppPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(queriesPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(77, 77, 77)
-                .addComponent(loginPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(94, Short.MAX_VALUE))
+                .addComponent(loginPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addComponent(addAppPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addComponent(queriesPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -65,6 +93,8 @@ public class ThesisFrame extends java.awt.Frame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private thesisdatabase.AddAppPanel addAppPanel1;
     private thesisdatabase.LoginPanel loginPanel2;
+    private thesisdatabase.queriesPanel queriesPanel1;
     // End of variables declaration//GEN-END:variables
 }

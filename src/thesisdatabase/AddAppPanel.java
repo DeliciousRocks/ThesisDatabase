@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -40,6 +41,7 @@ public class AddAppPanel extends javax.swing.JPanel {
         JSONLabel = new javax.swing.JLabel();
         developerLabel = new javax.swing.JLabel();
         developerName = new javax.swing.JTextField();
+        cancelButton = new javax.swing.JButton();
 
         setMinimumSize(new java.awt.Dimension(400, 300));
         setPreferredSize(new java.awt.Dimension(400, 300));
@@ -68,51 +70,62 @@ public class AddAppPanel extends javax.swing.JPanel {
 
         developerLabel.setText("Developer:");
 
+        cancelButton.setText("Cancel");
+        cancelButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(50, 50, 50)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(56, 56, 56)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(JSONLabel)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(appNameLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(appName, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(developerLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(developerName)))))
-                .addContainerGap(50, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
+                .addGap(56, 56, 56)
+                .addComponent(appNameLabel)
+                .addGap(6, 6, 6)
+                .addComponent(appName, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(56, 56, 56)
+                .addComponent(developerLabel)
+                .addGap(6, 6, 6)
+                .addComponent(developerName, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(56, 56, 56)
+                .addComponent(JSONLabel))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(50, 50, 50)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(50, 50, 50)
                 .addComponent(addApp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(149, 149, 149))
+                .addGap(120, 120, 120)
+                .addComponent(cancelButton))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addGap(16, 16, 16)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(appNameLabel)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(appNameLabel))
                     .addComponent(appName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(developerLabel)
+                .addGap(6, 6, 6)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(developerLabel))
                     .addComponent(developerName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(6, 6, 6)
                 .addComponent(JSONLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(12, 12, 12)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(addApp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12))
+                .addGap(3, 3, 3)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(addApp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cancelButton)))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -124,9 +137,30 @@ public class AddAppPanel extends javax.swing.JPanel {
     try {
         Application newApp = ThesisDatabase.readJSON(JSON.getText());
         ArrayList<String> data = newApp.appData();
+        data.add(ThesisDatabase.userName);
         data.add(appName.getText());
         data.add(developerName.getText());
         int appId = ThesisDatabase.addNewApp(data);
+               
+       
+      Object[] options1 = {"No, I'd like to go back",
+                          "Yes, I'd like to continue"};
+      int n = JOptionPane.showOptionDialog(ThesisDatabase.popUp,
+      "The data you submitted has been added to the database. "
+      + "\nWould you like to continue?",
+      "Success",
+      JOptionPane.YES_NO_OPTION,
+      JOptionPane.QUESTION_MESSAGE,
+      null,     
+      options1,  
+      options1[0]);
+      System.out.println(n);
+      if (n==0)
+      {
+            ThesisDatabase.window.selectPanel(2);
+      }
+      
+              clearFields();
 
         }
      catch (SQLException ex)
@@ -136,11 +170,24 @@ public class AddAppPanel extends javax.swing.JPanel {
     
     catch (org.json.JSONException e)
     {
-      System.out.println("JSON Exception");
+      JOptionPane.showMessageDialog(ThesisDatabase.popUp,
+          "Something appears to be wrong with the JSON file you have submitted. Please try again",
+          "Whoops!",
+          JOptionPane.ERROR_MESSAGE);
     }
 
     }//GEN-LAST:event_addAppActionPerformed
 
+    private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
+        clearFields();
+        ThesisDatabase.window.selectPanel(2);        
+    }//GEN-LAST:event_cancelButtonActionPerformed
+private void clearFields()
+{
+    appName.setText("");
+    developerName.setText("");
+    JSON.setText("");
+}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea JSON;
@@ -148,6 +195,7 @@ public class AddAppPanel extends javax.swing.JPanel {
     private javax.swing.JButton addApp;
     private javax.swing.JTextField appName;
     private javax.swing.JLabel appNameLabel;
+    private javax.swing.JButton cancelButton;
     private javax.swing.JLabel developerLabel;
     private javax.swing.JTextField developerName;
     private javax.swing.JScrollPane jScrollPane1;

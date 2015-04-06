@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -22,10 +23,11 @@ import org.json.JSONObject;
  */
 public class ThesisDatabase 
 {
-    
+    public static ThesisFrame window;
+    public static JFrame popUp;
     private static Connection conn;
-    private static String userName;
-    private static int role;
+    public static String userName;
+    public static int role;
 
     /**
      * @param args the command line arguments
@@ -38,8 +40,9 @@ public class ThesisDatabase
         //SwingUtilities.invokeLater(new Runnable() {
             public void run()
             {
-                ThesisFrame window =new ThesisFrame();
+                window =new ThesisFrame();
                 window.setVisible(true);
+                window.selectPanel(1);
 
             }
             

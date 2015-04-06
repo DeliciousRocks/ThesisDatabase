@@ -13,7 +13,7 @@ import java.util.logging.Logger;
  *
  * @author waltersquires
  */
-public class LoginPanel extends java.awt.Panel {
+public class LoginPanel extends javax.swing.JPanel {
 
     /**
      * Creates new form LoginPanel
@@ -40,15 +40,10 @@ public class LoginPanel extends java.awt.Panel {
         jTextField1.setText("jTextField1");
 
         setMinimumSize(new java.awt.Dimension(400, 400));
-        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         UserNameLabel.setText("User Name");
-        add(UserNameLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
 
         PasswordLabel.setText("Password");
-        add(PasswordLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, -1, -1));
-        add(userNameInput, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 10, 180, -1));
-        add(userPasswordInput, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 60, 180, -1));
 
         jButton1.setText("Login");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -56,7 +51,43 @@ public class LoginPanel extends java.awt.Panel {
                 jButton1ActionPerformed(evt);
             }
         });
-        add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 100, -1, -1));
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(UserNameLabel)
+                .addGap(32, 32, 32)
+                .addComponent(userNameInput, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(PasswordLabel)
+                .addGap(41, 41, 41)
+                .addComponent(userPasswordInput, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(120, 120, 120)
+                .addComponent(jButton1))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(UserNameLabel))
+                    .addComponent(userNameInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(22, 22, 22)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(PasswordLabel))
+                    .addComponent(userPasswordInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(12, 12, 12)
+                .addComponent(jButton1))
+        );
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -64,9 +95,14 @@ public class LoginPanel extends java.awt.Panel {
         {
             boolean login = ThesisDatabase.login((userNameInput.getText()),userPasswordInput.getText());
             if(login)
+            {
+                ThesisDatabase.window.selectPanel(2);
                 System.out.println("Logged in");
+            }
             else
+            {
                 System.out.println("Bad Login");
+            }
 
         }
         catch (SQLException ex) 
