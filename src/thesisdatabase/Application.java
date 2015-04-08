@@ -33,6 +33,10 @@ public class Application
      return data;
   }
   
+  public ArrayList<?> getInfo()
+  {
+      return null;
+  }
   
    public  void print()
   {

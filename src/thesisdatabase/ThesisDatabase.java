@@ -156,6 +156,47 @@ public static int addNewApp(ArrayList<String> data)
        return -1;
    }
 
+public static void addpermission(int id, Permission x)
+        throws SQLException {
+
+       PreparedStatement addPermission = null;
+       String newPermissionString =
+           "select addpermission(?,?,?,?)";
+       try {
+              addPermission = conn.prepareStatement(newPermissionString);
+              addPermission.setInt(1, id);
+              addPermission.setString(2, x.getName());
+              addPermission.setBoolean(3, x.getRequested());
+              addPermission.setBoolean(4, x.getRequired());
+ 
+              addPermission.executeQuery();
+            
+              
+       } 
+       catch (SQLException e ) {
+        e.printStackTrace();
+       }
+   }
+
+public static void addPackage(int id, String x)
+        throws SQLException {
+
+       PreparedStatement addPackage = null;
+       String newPackageString =
+           "select addpackage(?,?)";
+       try {
+              addPackage = conn.prepareStatement(newPackageString);
+              addPackage.setInt(1, id);
+              addPackage.setString(2, x);
+   
+              addPackage.executeQuery();
+              
+       } 
+       catch (SQLException e ) {
+        e.printStackTrace();
+       }
+   }
+
 public static Application readJSON(String json) throws org.json.JSONException
   {
     JSONObject obj = new JSONObject(json);

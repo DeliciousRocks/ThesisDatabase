@@ -141,6 +141,26 @@ public class AddAppPanel extends javax.swing.JPanel {
         data.add(appName.getText());
         data.add(developerName.getText());
         int appId = ThesisDatabase.addNewApp(data);
+        
+        ArrayList<?> permissions = newApp.getInfo();
+        if(newApp instanceof AndroidApplication)
+        {
+            for(int i = 0; i< permissions.size(); i++)
+            {
+                ThesisDatabase.addpermission(appId, (Permission)permissions.get(i));
+            }
+            
+        }
+        else if (newApp instanceof IOSApplication)
+        {
+            for(int i = 0; i< permissions.size(); i++)
+            {
+                ThesisDatabase.addPackage(appId, (String)permissions.get(i));
+
+            }
+
+            
+        }
                
        
       Object[] options1 = {"No, I'd like to go back",
@@ -154,7 +174,6 @@ public class AddAppPanel extends javax.swing.JPanel {
       null,     
       options1,  
       options1[0]);
-      System.out.println(n);
       if (n==0)
       {
             ThesisDatabase.window.selectPanel(2);

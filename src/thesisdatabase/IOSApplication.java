@@ -20,6 +20,12 @@ public class IOSApplication extends Application
       return data;
   }
   
+      public ArrayList<?> getInfo()
+  {
+      return frameworks;
+  }
+  
+    
   public void addFramework(String framework)
   {
     frameworks.add(framework);

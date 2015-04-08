@@ -97,11 +97,9 @@ public class LoginPanel extends javax.swing.JPanel {
             if(login)
             {
                 ThesisDatabase.window.selectPanel(2);
-                System.out.println("Logged in");
             }
             else
             {
-                System.out.println("Bad Login");
             }
 
         }

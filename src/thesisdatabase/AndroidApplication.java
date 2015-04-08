@@ -19,6 +19,11 @@ public class AndroidApplication extends Application
       return data;
   }
 
+    public ArrayList<?> getInfo()
+  {
+      return permissions;
+  }
+  
 public void addPermission(Permission x)
 {
   permissions.add(x);

@@ -14,6 +14,21 @@ public class Permission
     requested = request;
   }
   
+  public String getName()
+  {
+      return permissionName;
+  }
+  
+  public boolean getRequired()
+  {
+      return required;
+  }
+  
+  public boolean getRequested()
+  {
+      return requested;
+  }
+  
   public void print()
   {
     System.out.println(permissionName + "\nRequired: " +required+ "\nRequested: "+requested);
