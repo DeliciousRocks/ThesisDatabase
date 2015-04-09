@@ -1,3 +1,4 @@
+@@ -0,0 +1,236 @@
 # ThesisDatabase
 
 ----------Create Database----------
@@ -39,6 +40,8 @@ CREATE TABLE "framework"
 CREATE TABLE permission
 (
   permissionname character varying(255),
+  requested boolean,
+  required boolean,
   potentiallyinsecure boolean,
   CONSTRAINT permissionname_pkey PRIMARY KEY (permissionname)
 );
@@ -234,3 +237,52 @@ BEGIN
 end
 $$
   LANGUAGE plpgsql;
+
+  -- Function: addpermission(integer, text, boolean, boolean)
+
+-- DROP FUNCTION addpermission(integer, text, boolean, boolean);
+
+CREATE OR REPLACE FUNCTION addpermission(
+    appd integer,
+    pname text,
+    rted boolean,
+    rred boolean)
+  RETURNS void AS
+$BODY$
+DECLARE 
+	permissionExists integer;
+BEGIN
+	Select count(*) into permissionExists from permission where permission.permissionname = pname;
+	if(permissionExists = 0) then
+		Insert Into permission values (pname, null);
+	end if;
+	Insert into apphaspermission(appid,permissionname,requested,required) 
+	                values (appd,pname,rted,rred);
+	--return new;
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION addpermission(integer, text, boolean, boolean)
+  OWNER TO postgres;
+
+  -- Function: addpackage(integer, text)
+
+-- DROP FUNCTION addpackage(integer, text);
+
+CREATE OR REPLACE FUNCTION addpackage(
+    appid integer,
+    packagename text)
+  RETURNS void AS
+$BODY$
+
+BEGIN
+	Insert into apphaspackage(appid,packageName) 
+	                values (appId,packageName);
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION addpackage(integer, text)
+  OWNER TO postgres;
+
