@@ -5,6 +5,14 @@
  */
 package thesisdatabase;
 
+import javax.swing.JOptionPane;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
+
+
 /**
  *
  * @author waltersquires
@@ -30,6 +38,8 @@ public class queriesPanel extends javax.swing.JPanel {
         welcomeLabel = new javax.swing.JLabel();
         userNameLabel = new javax.swing.JLabel();
         addAppButton = new javax.swing.JButton();
+        viewAppDataButton = new javax.swing.JButton();
+        appId = new javax.swing.JTextField();
 
         welcomeLabel.setText("Welcome");
 
@@ -42,18 +52,32 @@ public class queriesPanel extends javax.swing.JPanel {
             }
         });
 
+        viewAppDataButton.setText("View App Data");
+        viewAppDataButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                viewAppDataButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addComponent(welcomeLabel)
-                .addGap(6, 6, 6)
-                .addComponent(userNameLabel))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addComponent(addAppButton))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(32, 32, 32)
+                        .addComponent(welcomeLabel)
+                        .addGap(6, 6, 6)
+                        .addComponent(userNameLabel))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(addAppButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(viewAppDataButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(appId, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(131, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -63,7 +87,11 @@ public class queriesPanel extends javax.swing.JPanel {
                     .addComponent(welcomeLabel)
                     .addComponent(userNameLabel))
                 .addGap(6, 6, 6)
-                .addComponent(addAppButton))
+                .addComponent(addAppButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(viewAppDataButton)
+                    .addComponent(appId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -71,10 +99,68 @@ public class queriesPanel extends javax.swing.JPanel {
     ThesisDatabase.window.selectPanel(0);
     }//GEN-LAST:event_addAppButtonActionPerformed
 
+    private void viewAppDataButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewAppDataButtonActionPerformed
+     try
+     {
+       ResultSet app = ThesisDatabase.viewApp(Integer.parseInt(appId.getText()));
+        while (app.next()) {
+              String appType = app.getString("os");
+              if (appType.equals("Android"))
+              {
+                  AndroidResults temp = ThesisDatabase.window.getAndroidPanel();
+                  temp.jTable2.setValueAt(app.getString("appName"), 0, 0);
+                  temp.jTable2.setValueAt(app.getString("developer"), 0,1);
+                  temp.jTable2.setValueAt(app.getString("addedby"), 0, 2);
+                  temp.jTable2.setValueAt(app.getString("dateadded"), 0, 3); 
+
+                  DefaultTableModel model = (DefaultTableModel) temp.jTable1.getModel();
+
+                  ResultSet permissions = ThesisDatabase.getPermissions(Integer.parseInt(appId.getText()));
+                  int h= temp.jTable1.getRowCount();
+                  int row = 0;
+                  while(permissions.next())
+                  {
+                     temp.jTable1.setValueAt(permissions.getString("permissionName"), row, 0);
+                     temp.jTable1.setValueAt(permissions.getBoolean("requested"), row,1);
+                     temp.jTable1.setValueAt(permissions.getBoolean("required"), row, 2);
+                     row++;
+                     
+                        if(row>= h)
+                        {
+                          h++;
+                          model.setRowCount(h);
+                        }
+                  }
+                  
+                  ThesisDatabase.window.selectPanel(3);
+
+              }
+              //String appName = rs.getString(1);
+              //System.out.print(appName);
+              //String developer = rs.getString("os");
+              //int id2 = rs.getInt("addedby");
+              //String password = rs.getString("dateadded");
+              //System.out.println("appName" + "\t" + developer +
+              //                   "\t" + id2);
+          }
+     }
+     catch(NumberFormatException e)
+     {
+          JOptionPane.showMessageDialog(ThesisDatabase.popUp,
+          "Not an integer. Please try again",
+          "Whoops!",
+          JOptionPane.ERROR_MESSAGE);
+     }  catch (SQLException ex) {
+            Logger.getLogger(queriesPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_viewAppDataButtonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addAppButton;
+    private javax.swing.JTextField appId;
     private javax.swing.JLabel userNameLabel;
+    private javax.swing.JButton viewAppDataButton;
     private javax.swing.JLabel welcomeLabel;
     // End of variables declaration//GEN-END:variables
 }

@@ -17,14 +17,24 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
-              <EmptySpace min="32" pref="32" max="-2" attributes="0"/>
-              <Component id="welcomeLabel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
-              <Component id="userNameLabel" min="-2" max="-2" attributes="0"/>
-          </Group>
-          <Group type="102" attributes="0">
-              <EmptySpace min="22" pref="22" max="-2" attributes="0"/>
-              <Component id="addAppButton" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <EmptySpace min="32" pref="32" max="-2" attributes="0"/>
+                      <Component id="welcomeLabel" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
+                      <Component id="userNameLabel" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="22" pref="22" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="addAppButton" max="32767" attributes="0"/>
+                          <Component id="viewAppDataButton" max="32767" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="appId" min="-2" pref="37" max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+              <EmptySpace pref="131" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -38,6 +48,11 @@
               </Group>
               <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
               <Component id="addAppButton" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="29" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="viewAppDataButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="appId" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
           </Group>
       </Group>
     </DimensionLayout>
@@ -60,6 +75,16 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addAppButtonActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="viewAppDataButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="View App Data"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="viewAppDataButtonActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JTextField" name="appId">
     </Component>
   </SubComponents>
 </Form>

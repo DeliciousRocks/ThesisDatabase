@@ -22,6 +22,8 @@ public class ThesisFrame extends java.awt.Frame {
         panels.add(addAppPanel1);
         panels.add(loginPanel2);
         panels.add(queriesPanel1);
+        panels.add(androidResults1);
+
 
 
         
@@ -37,6 +39,11 @@ public class ThesisFrame extends java.awt.Frame {
                 panels.get(i).setVisible(false);
         }
     }
+    
+    public AndroidResults getAndroidPanel()
+    {
+        return androidResults1;
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -46,38 +53,21 @@ public class ThesisFrame extends java.awt.Frame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        queriesPanel1 = new thesisdatabase.queriesPanel();
+        androidResults1 = new thesisdatabase.AndroidResults();
         loginPanel2 = new thesisdatabase.LoginPanel();
         addAppPanel1 = new thesisdatabase.AddAppPanel();
-        queriesPanel1 = new thesisdatabase.queriesPanel();
 
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 exitForm(evt);
             }
         });
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(47, 47, 47)
-                .addComponent(loginPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addComponent(addAppPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(queriesPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(77, 77, 77)
-                .addComponent(loginPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addComponent(addAppPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addComponent(queriesPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
+        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        add(queriesPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 30, 620, 270));
+        add(androidResults1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 30, 610, -1));
+        add(loginPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 70, -1, -1));
+        add(addAppPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 0, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -94,6 +84,7 @@ public class ThesisFrame extends java.awt.Frame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private thesisdatabase.AddAppPanel addAppPanel1;
+    private thesisdatabase.AndroidResults androidResults1;
     private thesisdatabase.LoginPanel loginPanel2;
     private thesisdatabase.queriesPanel queriesPanel1;
     // End of variables declaration//GEN-END:variables

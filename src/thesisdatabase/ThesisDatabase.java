@@ -115,7 +115,7 @@ public class ThesisDatabase
                     //System.out.println(role + userName);
                 }
               }
-              
+              viewApp(0);
               return loggedIn;
     
        } 
@@ -125,6 +125,47 @@ public class ThesisDatabase
        return loggedIn;
    }
 
+    public static ResultSet viewApp(int id)
+      throws SQLException {
+  
+              
+      try {
+          PreparedStatement stmt = null;
+              String query = "select os,appName,developer,addedby,dateadded"
+                      + " from application"
+                      + " where appId = ?";
+          
+          stmt = conn.prepareStatement(query);
+          stmt.setInt(1,id);
+          ResultSet rs = stmt.executeQuery();
+          return rs;
+      } catch (SQLException e ) {
+          //System.out.println(e.getMessage());
+       e.printStackTrace();
+      }
+      return null;
+ }
+ 
+  public static ResultSet getPermissions(int id)
+      throws SQLException {
+  
+              
+      try {
+          PreparedStatement stmt = null;
+              String query = "select permissionname,requested,required"
+                      + " from apphaspermission"
+                      + " where appId = ?";
+          
+          stmt = conn.prepareStatement(query);
+          stmt.setInt(1,id);
+          ResultSet rs = stmt.executeQuery();
+          return rs;
+      } catch (SQLException e ) {
+          //System.out.println(e.getMessage());
+       e.printStackTrace();
+      }
+      return null;
+ }   
 //Adds app not permission. Yet
 public static int addNewApp(ArrayList<String> data)
         throws SQLException {
