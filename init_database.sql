@@ -1,9 +1,76 @@
+/***************
+ * Main Tables *
+ ***************/
+
+CREATE TABLE users (
+    userid serial primary key,--integer NOT NULL,
+    username character varying(255) unique,
+    password character varying(255),
+    role integer
+);
+
+
+CREATE TABLE application (
+    appid integer primary key,
+    appname character varying(255),
+    filename character varying(255),
+    packagename character varying(255),
+    minimumversion double precision,
+    targetversion double precision,
+    versioncode character varying(255),
+    versionname character varying(255),
+    dateadded timestamp with time zone,
+    addedby integer,
+    developer character varying(255),
+    os character varying(255),
+    constraint addedby_fkey FOREIGN KEY (addedby) REFERENCES users(userid)
+);
+
+
+CREATE TABLE framework (
+    frameworkname character varying(255) primary key,
+    potentiallyinsecure boolean
+);
+
+
+CREATE TABLE permission (
+    permissionname character varying(255) primary key,
+    potentiallyinsecure boolean
+);
+
+
+
+/******************
+ * Support Tables *
+ ******************/
+
+CREATE TABLE apphaspermission (
+    appid integer,
+    permissionname character varying(255),
+    requested boolean,
+    required boolean,
+    primary key (appid, permissionname),
+    constraint androidid_fkey foreign key (appid) references application(appid),
+    constraint permissionname_fkey foreign key (permissionname) references permission(permissionname)
+);
+
+
+CREATE TABLE apphasframework (
+    appid integer,
+    packagename character varying(255),
+    primary key (appid, packagename),
+    constraint androidid_fkey FOREIGN KEY (appid) REFERENCES application(appid),
+    constraint packagename_fkey FOREIGN KEY (packagename) REFERENCES framework(frameworkname)
+);
+
+
+
 /*************
  * Functions *
  *************/
 
-create or replace function checkAppAndPermissionStatus(
-	appid integer,
+create function checkAppAndPermissionStatus(
+	aid integer,
 	permission character varying(255))
 	returns integer
 language plpgsql
@@ -16,13 +83,39 @@ begin
 	select	requested
 	from	apphaspermission
 	into	isRequested
-	where	appid=apphaspersmission.appid
+	where	appid=aid
 		and permission=permissionname;
 
-	return isRequired & (isRequested << 1);
---good 0, under 1, over 2, both 3
+	select	required
+	from	apphaspermission
+	into	isRequired
+	where	appid=aid
+		and permission=permissionname;
+
+	-- good 0, under 1, over 2
+	return ((isRequired::int) | (isRequested::int << 1)) % 3;
 end $$;
 
+
+create function checkAppPrivilegeStatus(aid integer)
+	returns integer
+language plpgsql
+as $$
+declare
+	privilegeStatus integer := 0;
+	r record;
+begin
+	for r in (select	appid, permissionname
+		  from		apphaspermission
+		  where		appid=aid) loop
+
+		privilegeStatus = permissionStatus | checkAppAndPermissionStatus(r.appid, r.permissionname);
+		
+	end loop;
+
+	-- good 0, under 1, over 2, both 3
+	return privilegeStatus;
+end $$;
 
 
 create function addnewapp(filename text, packagename text, minimumversion double precision, targetversion double precision, versioncode text, versionname text, os text, username text, appname text, developer text) RETURNS integer
@@ -61,7 +154,7 @@ DECLARE
 	permissionExists integer;
 BEGIN
 	Select count(*) into permissionExists from permission where permissionname = new.permissionname;
-	if(permissionExists = 0) then
+	if (permissionExists = 0) then
 		Insert Into permission values (new.permissionname, null);
 	end if;
 	--Insert into apphaspermission(appid,permissionname,requested,required) 
@@ -138,7 +231,7 @@ $$;
 -- Name: createuser(text, text, integer); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
-create or replace function createuser(
+create function createuser(
 	name text,
 	password text,
 	role integer) returns integer
@@ -158,7 +251,7 @@ end $$;
 -- Name: createuserid(); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
-create or replace FUNCTION createuserid() RETURNS integer
+create FUNCTION createuserid() RETURNS integer
     LANGUAGE plpgsql
     AS $$
 DECLARE 
@@ -198,10 +291,6 @@ DECLARE
 $$;
 
 
---
--- TOC entry 191 (class 1255 OID 51204)
--- Name: login(text, text); Type: FUNCTION; Schema: public; Owner: postgres
---
 
 CREATE FUNCTION login(name text, pass text) RETURNS boolean
     LANGUAGE plpgsql
@@ -281,69 +370,3 @@ DECLARE
 	end;
 $$;
 
-
-
-/***************
- * Main Tables *
- ***************/
-
-CREATE TABLE users (
-    userid serial primary key,--integer NOT NULL,
-    username character varying(255) unique,
-    password character varying(255),
-    role integer
-);
-
-
-CREATE TABLE application (
-    appid integer primary key,
-    appname character varying(255),
-    filename character varying(255),
-    packagename character varying(255),
-    minimumversion double precision,
-    targetversion double precision,
-    versioncode character varying(255),
-    versionname character varying(255),
-    dateadded timestamp with time zone,
-    addedby integer,
-    developer character varying(255),
-    os character varying(255),
-    constraint addedby_fkey FOREIGN KEY (addedby) REFERENCES users(userid)
-);
-
-
-CREATE TABLE framework (
-    frameworkname character varying(255) primary key,
-    potentiallyinsecure boolean
-);
-
-
-CREATE TABLE permission (
-    permissionname character varying(255) primary key,
-    potentiallyinsecure boolean
-);
-
-
-
-/******************
- * Support Tables *
- ******************/
-
-CREATE TABLE apphaspermission (
-    appid integer,
-    permissionname character varying(255),
-    requested boolean,
-    required boolean,
-    primary key (appid, permissionname),
-    constraint androidid_fkey foreign key (appid) references application(appid),
-    constraint permissionname_fkey foreign key (permissionname) references permission(permissionname)
-);
-
-
-CREATE TABLE apphasframework (
-    appid integer,
-    packagename character varying(255),
-    primary key (appid, packagename),
-    constraint androidid_fkey FOREIGN KEY (appid) REFERENCES application(appid),
-    constraint packagename_fkey FOREIGN KEY (packagename) REFERENCES framework(frameworkname)
-);

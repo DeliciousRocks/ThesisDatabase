@@ -2,8 +2,8 @@ select * from createuser('sean', 'abc123', 0);
 select * from createuser('bob', 'abc123', 0);
 
 
-select * from addnewapp('file1', 'package1', 1.0, 2.0, 'v1', 'version1', 'iOS', '', 'myApp1', 'developer1');
-select * from addnewapp('file2', 'package2', 1.0, 2.0, 'v1', 'version1', 'iOS', '', 'myApp2', 'developer1');
+select * from addnewapp('file1', 'package1', 1.0, 2.0, 'v1', 'version1', 'iOS', 'sean', 'myApp1', 'developer1');
+select * from addnewapp('file2', 'package2', 1.0, 2.0, 'v1', 'version1', 'iOS', 'sean', 'myApp2', 'developer1');
 
 
 insert into permission values ('permission1', 'false');

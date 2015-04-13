@@ -23,9 +23,7 @@ public class ThesisFrame extends java.awt.Frame {
         panels.add(loginPanel2);
         panels.add(queriesPanel1);
         panels.add(androidResults1);
-
-
-
+        panels.add(appPrivilegesPanel1);
         
     }
     
@@ -53,21 +51,23 @@ public class ThesisFrame extends java.awt.Frame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        queriesPanel1 = new thesisdatabase.queriesPanel();
+        queriesPanel1 = new thesisdatabase.QueriesPanel();
         androidResults1 = new thesisdatabase.AndroidResults();
         loginPanel2 = new thesisdatabase.LoginPanel();
         addAppPanel1 = new thesisdatabase.AddAppPanel();
+        appPrivilegesPanel1 = new AppPrivilegesPanel();
 
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 exitForm(evt);
             }
         });
-        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        add(queriesPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 30, 620, 270));
-        add(androidResults1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 30, 610, -1));
-        add(loginPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 70, -1, -1));
-        add(addAppPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 0, -1, -1));
+        setLayout(new java.awt.CardLayout());
+        add(queriesPanel1, "card2");
+        add(androidResults1, "card3");
+        add(loginPanel2, "card4");
+        add(addAppPanel1, "card5");
+        add(appPrivilegesPanel1, "card6");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -85,7 +85,8 @@ public class ThesisFrame extends java.awt.Frame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private thesisdatabase.AddAppPanel addAppPanel1;
     private thesisdatabase.AndroidResults androidResults1;
+    private javax.swing.JPanel appPrivilegesPanel1;
     private thesisdatabase.LoginPanel loginPanel2;
-    private thesisdatabase.queriesPanel queriesPanel1;
+    private thesisdatabase.QueriesPanel queriesPanel1;
     // End of variables declaration//GEN-END:variables
 }

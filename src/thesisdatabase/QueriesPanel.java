@@ -17,12 +17,12 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author waltersquires
  */
-public class queriesPanel extends javax.swing.JPanel {
+public class QueriesPanel extends javax.swing.JPanel {
 
     /**
      * Creates new form queriesPanel
      */
-    public queriesPanel() {
+    public QueriesPanel() {
         initComponents();
     }
 
@@ -40,6 +40,7 @@ public class queriesPanel extends javax.swing.JPanel {
         addAppButton = new javax.swing.JButton();
         viewAppDataButton = new javax.swing.JButton();
         appId = new javax.swing.JTextField();
+        appPrivilegeButton = new javax.swing.JButton();
 
         welcomeLabel.setText("Welcome");
 
@@ -56,6 +57,13 @@ public class queriesPanel extends javax.swing.JPanel {
         viewAppDataButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 viewAppDataButtonActionPerformed(evt);
+            }
+        });
+
+        appPrivilegeButton.setText("View App Privilege Statuses");
+        appPrivilegeButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                appPrivilegeButtonActionPerformed(evt);
             }
         });
 
@@ -76,8 +84,10 @@ public class queriesPanel extends javax.swing.JPanel {
                             .addComponent(addAppButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(viewAppDataButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(appId, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(131, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(appId, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(appPrivilegeButton))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -87,7 +97,9 @@ public class queriesPanel extends javax.swing.JPanel {
                     .addComponent(welcomeLabel)
                     .addComponent(userNameLabel))
                 .addGap(6, 6, 6)
-                .addComponent(addAppButton)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(addAppButton)
+                    .addComponent(appPrivilegeButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(viewAppDataButton)
@@ -151,14 +163,19 @@ public class queriesPanel extends javax.swing.JPanel {
           "Whoops!",
           JOptionPane.ERROR_MESSAGE);
      }  catch (SQLException ex) {
-            Logger.getLogger(queriesPanel.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(QueriesPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_viewAppDataButtonActionPerformed
+
+    private void appPrivilegeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_appPrivilegeButtonActionPerformed
+        ThesisDatabase.window.selectPanel(4);
+    }//GEN-LAST:event_appPrivilegeButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addAppButton;
     private javax.swing.JTextField appId;
+    private javax.swing.JButton appPrivilegeButton;
     private javax.swing.JLabel userNameLabel;
     private javax.swing.JButton viewAppDataButton;
     private javax.swing.JLabel welcomeLabel;

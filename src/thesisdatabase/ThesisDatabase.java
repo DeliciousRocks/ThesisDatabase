@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Set;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import org.json.JSONArray;
@@ -202,7 +203,8 @@ public static void addpermission(int id, Permission x)
 
        PreparedStatement addPermission = null;
        String newPermissionString =
-           "select addpermission(?,?,?,?)";
+           //"select addpermission(?,?,?,?)";
+           "insert into apphaspermission values(?, ?, ?, ?)";
        try {
               addPermission = conn.prepareStatement(newPermissionString);
               addPermission.setInt(1, id);
@@ -210,7 +212,8 @@ public static void addpermission(int id, Permission x)
               addPermission.setBoolean(3, x.getRequested());
               addPermission.setBoolean(4, x.getRequired());
  
-              addPermission.executeQuery();
+              //addPermission.executeQuery();
+              addPermission.executeUpdate();
             
               
        } 
@@ -237,6 +240,19 @@ public static void addPackage(int id, String x)
         e.printStackTrace();
        }
    }
+/*
+public static Set<Application> getWellPrivilegedApps() {
+        try {
+            PreparedStatement stmt = null;
+            String query =
+                    "select * from application where";
+            stmt = conn.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+}
+*/
 
 public static Application readJSON(String json) throws org.json.JSONException
   {
