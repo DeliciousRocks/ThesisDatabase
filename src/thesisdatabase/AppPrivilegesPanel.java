@@ -145,13 +145,10 @@ public class AppPrivilegesPanel extends javax.swing.JPanel {
 
         goodTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "App Name"
+
             }
         ));
         goodScrollPane.setViewportView(goodTable);

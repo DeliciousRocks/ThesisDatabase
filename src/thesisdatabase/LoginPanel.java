@@ -101,6 +101,9 @@ public class LoginPanel extends javax.swing.JPanel {
             if(login)
             {
                 ThesisDatabase.window.selectPanel(2);
+                ThesisDatabase.userName = userNameInput.getText();
+                ThesisDatabase.role = ThesisDatabase.checkRole();
+                ThesisDatabase.window.setName(ThesisDatabase.userName);
             }
             else
             {

@@ -167,6 +167,11 @@ public class QueriesPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_viewAppDataButtonActionPerformed
 
+    public void setName(String name)
+    {
+        userNameLabel.setText(name);
+    }
+    
     private void appPrivilegeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_appPrivilegeButtonActionPerformed
         ThesisDatabase.window.selectPanel(4);
     }//GEN-LAST:event_appPrivilegeButtonActionPerformed

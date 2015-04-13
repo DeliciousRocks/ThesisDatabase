@@ -65,7 +65,7 @@ public class ThesisDatabase
      e1.printStackTrace();
      }
   
-     String url = "jdbc:postgresql://localhost:5432/Static_Analysis";
+     String url = "jdbc:postgresql://localhost:5432/Thesis";
      String user = "postgres";
      String password = "A1B2C3";
 
@@ -126,6 +126,30 @@ public class ThesisDatabase
        return loggedIn;
    }
 
+    public static int checkRole()
+        throws SQLException {
+
+       int role = -1;
+       PreparedStatement checkRole = null;
+       String check =
+           "select getuserrole(?)";
+       try {
+              checkRole = conn.prepareStatement(check);
+              checkRole.setString(1,ThesisDatabase.userName);
+              ResultSet rs = checkRole.executeQuery();
+              if(rs.next())
+                role =rs.getInt(1);
+           
+              return role;
+    
+       } 
+       catch (SQLException e ) {
+        e.printStackTrace();
+       }
+       return role;
+   }
+
+    
     public static ResultSet viewApp(int id)
       throws SQLException {
   

@@ -38,6 +38,11 @@ public class ThesisFrame extends java.awt.Frame {
         }
     }
     
+    public void setName(String name)
+    {
+        queriesPanel1.setName(name);
+    }
+    
     public AndroidResults getAndroidPanel()
     {
         return androidResults1;
