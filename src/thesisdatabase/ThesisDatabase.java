@@ -222,6 +222,35 @@ public static int addNewApp(ArrayList<String> data)
        return -1;
    }
 
+public static boolean isRepeat(String x, String y,String z)
+        throws SQLException {
+
+       PreparedStatement isRepeat = null;
+       String repeat =
+           "select isRepeat(?,?,?)";
+       try {
+            
+              isRepeat = conn.prepareStatement(repeat);
+              isRepeat.setString(1, x);
+              isRepeat.setString(2, y);
+              isRepeat.setString(3, z);
+
+              ResultSet rs = isRepeat.executeQuery();
+              if(rs.next())
+              {
+                boolean temp = rs.getBoolean(1);
+                return temp;
+              }
+              
+              //return false;
+       } 
+       catch (SQLException e ) {
+        e.printStackTrace();
+       }
+       return false;
+   }
+
+
 public static void addpermission(int id, Permission x)
         throws SQLException {
 
