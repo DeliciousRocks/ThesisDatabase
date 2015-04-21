@@ -23,7 +23,13 @@ public class ThesisFrame extends java.awt.Frame {
         panels.add(loginPanel2);
         panels.add(queriesPanel1);
         panels.add(androidResults1);
-        panels.add(appPrivilegesPanel1);
+        panels.add(appPrivilegesPanel2);
+        panels.add(addUserPanel1);
+        panels.add(viewPermissionsPanel1);
+        panels.add(classifyUnknownPermissionsPanel1);
+        //panels.add(addUserPanel1);
+
+        
         
     }
     
@@ -43,9 +49,14 @@ public class ThesisFrame extends java.awt.Frame {
         queriesPanel1.setName(name);
     }
     
-    public AndroidResults getAndroidPanel()
+    public AppData getAndroidPanel()
     {
         return androidResults1;
+    }
+    
+    public AppPrivilegesPanel getPrivilegesPanel()
+    {
+        return appPrivilegesPanel2;
     }
 
     /**
@@ -57,10 +68,13 @@ public class ThesisFrame extends java.awt.Frame {
     private void initComponents() {
 
         queriesPanel1 = new thesisdatabase.QueriesPanel();
-        androidResults1 = new thesisdatabase.AndroidResults();
+        androidResults1 = new thesisdatabase.AppData();
         loginPanel2 = new thesisdatabase.LoginPanel();
         addAppPanel1 = new thesisdatabase.AddAppPanel();
-        appPrivilegesPanel1 = new AppPrivilegesPanel();
+        appPrivilegesPanel2 = new thesisdatabase.AppPrivilegesPanel();
+        addUserPanel1 = new thesisdatabase.AddUserPanel();
+        viewPermissionsPanel1 = new thesisdatabase.ViewPermissionsPanel();
+        classifyUnknownPermissionsPanel1 = new thesisdatabase.classifyUnknownPermissionsPanel();
 
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -72,7 +86,10 @@ public class ThesisFrame extends java.awt.Frame {
         add(androidResults1, "card3");
         add(loginPanel2, "card4");
         add(addAppPanel1, "card5");
-        add(appPrivilegesPanel1, "card6");
+        add(appPrivilegesPanel2, "card6");
+        add(addUserPanel1, "card7");
+        add(viewPermissionsPanel1, "card8");
+        add(classifyUnknownPermissionsPanel1, "card9");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -84,14 +101,30 @@ public class ThesisFrame extends java.awt.Frame {
         System.exit(0);
     }//GEN-LAST:event_exitForm
 
+    public void guestMode()
+    {
+        queriesPanel1.guestMode();
+    }
+    
+    public void userMode()
+    {
+        queriesPanel1.userMode();
+    }
    
+    public ViewPermissionsPanel getViewPermissionsPanel()
+    {
+        return viewPermissionsPanel1;
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private thesisdatabase.AddAppPanel addAppPanel1;
-    private thesisdatabase.AndroidResults androidResults1;
-    private javax.swing.JPanel appPrivilegesPanel1;
+    private thesisdatabase.AddUserPanel addUserPanel1;
+    private thesisdatabase.AppData androidResults1;
+    private thesisdatabase.AppPrivilegesPanel appPrivilegesPanel2;
+    private thesisdatabase.classifyUnknownPermissionsPanel classifyUnknownPermissionsPanel1;
     private thesisdatabase.LoginPanel loginPanel2;
     private thesisdatabase.QueriesPanel queriesPanel1;
+    private thesisdatabase.ViewPermissionsPanel viewPermissionsPanel1;
     // End of variables declaration//GEN-END:variables
 }

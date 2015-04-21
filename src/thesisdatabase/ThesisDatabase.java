@@ -116,7 +116,7 @@ public class ThesisDatabase
                     //System.out.println(role + userName);
                 }
               }
-              viewApp(0);
+              //viewApp(0);
               return loggedIn;
     
        } 
@@ -293,19 +293,26 @@ public static void addPackage(int id, String x)
         e.printStackTrace();
        }
    }
-/*
-public static Set<Application> getWellPrivilegedApps() {
+
+public static ArrayList<ResultSet> getAppsbyStatus()
+{
+    ArrayList<ResultSet> results = new ArrayList();
         try {
             PreparedStatement stmt = null;
-            String query =
-                    "select * from application where";
+            String query = "select  * from getAppsWithPrivilegeStatus(?);";
+            for (int i = 0; i<4; i++)
+            {
             stmt = conn.prepareStatement(query);
+            stmt.setInt(1,i);
             ResultSet rs = stmt.executeQuery();
+            results.add(rs);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return results;
 }
-*/
+
 
 public static Application readJSON(String json) throws org.json.JSONException
   {
@@ -360,5 +367,72 @@ public static Application readJSON(String json) throws org.json.JSONException
     
     return null;
   }
+
+    static String getUserName(int parseInt) throws SQLException
+    {    
+      String temp ="";
+      try {
+          PreparedStatement stmt = null;
+              String query = "select getUserName(?)";
+          stmt = conn.prepareStatement(query);
+          stmt.setInt(1,parseInt);
+          ResultSet rs = stmt.executeQuery();
+          if(rs.next())
+          {
+            temp = rs.getString(1);
+            return temp;
+          }
+          return temp;
+      } catch (SQLException e ) {
+          //System.out.println(e.getMessage());
+       e.printStackTrace();
+      }
+      return temp;
+    }
+    
+    public static boolean addUser(String x, String y,int z)
+        throws SQLException {
+
+       PreparedStatement adduser = null;
+       String add =
+           "select createUser(?,?,?)";
+       try {
+            
+              adduser = conn.prepareStatement(add);
+              adduser.setString(1, x);
+              adduser.setString(2, y);
+              adduser.setInt(3, z);
+
+              ResultSet rs = adduser.executeQuery();
+              if(rs.next())
+              {
+                boolean temp = rs.getBoolean(1);
+                return temp;
+              }
+              
+              //return false;
+       } 
+       catch (SQLException e ) {
+        e.printStackTrace();
+       }
+       return false;
+   }
+    
+    public static ResultSet getAllPermissions()
+      throws SQLException {
+  
+              
+      try {
+          PreparedStatement stmt = null;
+          String query = "Select * from permission where permissionname not in (select getunknownpermissions()) order by permissionname;";
+          stmt = conn.prepareStatement(query);
+          ResultSet rs = stmt.executeQuery();
+          return rs;
+      } catch (SQLException e ) {
+          //System.out.println(e.getMessage());
+       e.printStackTrace();
+      }
+      return null;
+ }   
 }
 
