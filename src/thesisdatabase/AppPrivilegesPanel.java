@@ -24,9 +24,9 @@ public class AppPrivilegesPanel extends javax.swing.JPanel {
     }
     
     private void populateTables() {
-        /*ThesisDatabase.getGoodApps();
+        ThesisDatabase.getCorrectlyPrivilegedApps();
         ThesisDatabase.getUnderprivilegedApps();
-        ThesisDatabase.getOverprivilegedApps();*/
+        ThesisDatabase.getOverprivilegedApps();
     }
 
     /**

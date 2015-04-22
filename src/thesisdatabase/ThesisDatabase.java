@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Set;
+import java.util.TreeSet;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import org.json.JSONArray;
@@ -30,6 +31,13 @@ public class ThesisDatabase
     public static String userName;
     public static int role;
 
+    public static enum PrivilegeStatus {
+        CorrectlyPrivileged,
+        UnderPrivileged,
+        OverPrivileged,
+        UnderAndOverPrivileged
+    };
+    
     /**
      * @param args the command line arguments
      */
@@ -65,7 +73,7 @@ public class ThesisDatabase
      e1.printStackTrace();
      }
   
-     String url = "jdbc:postgresql://localhost:5432/Thesis";
+     String url = "jdbc:postgresql://localhost:5432/Static_Analysis";
      String user = "postgres";
      String password = "A1B2C3";
 
@@ -331,5 +339,35 @@ public static Application readJSON(String json) throws org.json.JSONException
     
     return null;
   }
+
+    public static Set<AndroidApplication> getCorrectlyPrivilegedApps()
+    {
+        Set apps = new TreeSet<AndroidApplication>();
+        
+        PreparedStatement correctAppsStmt = null;
+        String correctAppQuery = "";
+        
+        try {
+            correctAppsStmt = conn.prepareStatement(correctAppQuery);
+            
+            correctAppsStmt.executeQuery();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return apps;
+    }
+
+    public static Set<AndroidApplication> getUnderPrivilegedApps()
+    {
+        Set apps = new TreeSet<AndroidApplication>();
+        return apps;
+    }
+
+    public static Set<AndroidApplication> getOverPrivilegedApps()
+    {
+        Set apps = new TreeSet<AndroidApplication>();
+        return apps;
+    }
 }
 

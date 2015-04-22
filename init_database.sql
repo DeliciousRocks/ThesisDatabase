@@ -109,13 +109,22 @@ begin
 		  from		apphaspermission
 		  where		appid=aid) loop
 
-		privilegeStatus = permissionStatus | checkAppAndPermissionStatus(r.appid, r.permissionname);
+		privilegeStatus = privilegeStatus | checkAppAndPermissionStatus(r.appid, r.permissionname);
 		
 	end loop;
 
 	-- good 0, under 1, over 2, both 3
 	return privilegeStatus;
 end $$;
+
+
+create function getAppsWithPrivilegeStatus(status integer)
+	returns setof application
+as $$
+	select	*
+	from	application
+	where	(select * from checkAppPrivilegeStatus(appid))=status;
+$$ language sql;
 
 
 create function addnewapp(filename text, packagename text, minimumversion double precision, targetversion double precision, versioncode text, versionname text, os text, username text, appname text, developer text) RETURNS integer
