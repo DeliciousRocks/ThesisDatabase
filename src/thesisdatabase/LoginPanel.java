@@ -100,10 +100,20 @@ public class LoginPanel extends javax.swing.JPanel {
             boolean login = ThesisDatabase.login((userNameInput.getText()),userPasswordInput.getText());
             if(login)
             {
+                if (ThesisDatabase.role>0)
+                {
+                    if (ThesisDatabase.role>1)
+                        ThesisDatabase.window.guestMode();
+                    else 
+                        ThesisDatabase.window.userMode();
+                    
+                }
+               
                 ThesisDatabase.window.selectPanel(2);
                 ThesisDatabase.userName = userNameInput.getText();
                 ThesisDatabase.role = ThesisDatabase.checkRole();
                 ThesisDatabase.window.setName(ThesisDatabase.userName);
+                
             }
             else
             {

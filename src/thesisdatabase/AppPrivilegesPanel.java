@@ -23,6 +23,20 @@ public class AppPrivilegesPanel extends javax.swing.JPanel {
         populateTables();
     }
     
+    public javax.swing.JTable getTable(int i)
+    {
+        if (i==0)
+            return jTable1;
+        else if (i==1)
+            return jTable2;
+        else if (i==2)
+            return jTable4;
+        else if (i==3)
+            return jTable3;
+        else 
+            return null;
+    }
+    
     private void populateTables() {
         ThesisDatabase.getCorrectlyPrivilegedApps();
         ThesisDatabase.getUnderprivilegedApps();
@@ -37,65 +51,45 @@ public class AppPrivilegesPanel extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
-        goodLabel = new javax.swing.JLabel();
-        underLabel = new javax.swing.JLabel();
-        overLabel = new javax.swing.JLabel();
-        bothLabel = new javax.swing.JLabel();
-        overScrollPane = new javax.swing.JScrollPane();
-        overTable = new javax.swing.JTable();
-        bothScrollPane = new javax.swing.JScrollPane();
-        bothTable = new javax.swing.JTable();
-        goodScrollPane = new javax.swing.JScrollPane();
-        goodTable = new javax.swing.JTable();
-        underScrollPane = new javax.swing.JScrollPane();
-        underTable = new javax.swing.JTable();
-        backButton = new javax.swing.JButton();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jPanel1 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
+        jButton2 = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable3 = new javax.swing.JTable();
+        jButton3 = new javax.swing.JButton();
+        jPanel4 = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jTable4 = new javax.swing.JTable();
+        jButton4 = new javax.swing.JButton();
+        jPanel5 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        overiOSNumber = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        properiOSNumber = new javax.swing.JLabel();
+        underiOSNumber = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        overAndroidNumber = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        properAndroidNumber = new javax.swing.JLabel();
+        underAndroidNumber = new javax.swing.JLabel();
+        Back = new javax.swing.JButton();
 
-        setLayout(new java.awt.GridBagLayout());
+        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        goodLabel.setText("Good");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.ipadx = 10;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 25, 0, 0);
-        add(goodLabel, gridBagConstraints);
+        jScrollPane1.setMaximumSize(new java.awt.Dimension(350, 200));
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(400, 200));
 
-        underLabel.setText("Underprivileged");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.ipadx = 10;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 19, 0, 0);
-        add(underLabel, gridBagConstraints);
-
-        overLabel.setText("Overprivileged");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.ipadx = 10;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 19, 0, 0);
-        add(overLabel, gridBagConstraints);
-
-        bothLabel.setText("Under and overprivileged");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.ipadx = 10;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 19, 0, 0);
-        add(bothLabel, gridBagConstraints);
-
-        overTable.setModel(new javax.swing.table.DefaultTableModel(
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -103,121 +97,234 @@ public class AppPrivilegesPanel extends javax.swing.JPanel {
                 {null, null, null, null}
             },
             new String [] {
-                "App Name"
+                "App Id", "App Name", "Version Code", "Platform"
             }
         ));
-        overScrollPane.setViewportView(overTable);
+        jTable1.setBounds(new java.awt.Rectangle(0, 0, 350, 64));
+        jTable1.setPreferredSize(new java.awt.Dimension(250, 64));
+        jScrollPane1.setViewportView(jTable1);
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.ipadx = 5;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(24, 24, 24, 24);
-        add(overScrollPane, gridBagConstraints);
+        jPanel1.add(jScrollPane1);
 
-        bothTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "App Name"
-            }
-        ));
-        bothScrollPane.setViewportView(bothTable);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 7;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.ipadx = 10;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(19, 19, 19, 19);
-        add(bothScrollPane, gridBagConstraints);
-
-        goodTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-
-            }
-        ));
-        goodScrollPane.setViewportView(goodTable);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(24, 24, 24, 24);
-        add(goodScrollPane, gridBagConstraints);
-
-        underTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "App Name"
-            }
-        ));
-        underScrollPane.setViewportView(underTable);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.ipadx = 5;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(24, 24, 24, 24);
-        add(underScrollPane, gridBagConstraints);
-
-        backButton.setText("Back");
-        backButton.setName(""); // NOI18N
-        backButton.addActionListener(new java.awt.event.ActionListener() {
+        jButton1.setText("Back");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                backActionPerformed(evt);
+                jButton1ActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 8;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        add(backButton, gridBagConstraints);
+        jPanel1.add(jButton1);
+
+        jTabbedPane1.addTab("Over Privileged", jPanel1);
+
+        jScrollPane2.setMaximumSize(new java.awt.Dimension(350, 200));
+        jScrollPane2.setPreferredSize(new java.awt.Dimension(400, 200));
+
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "App Id", "App Name", "Version Code", "Platform"
+            }
+        ));
+        jTable2.setBounds(new java.awt.Rectangle(0, 0, 350, 64));
+        jTable2.setPreferredSize(new java.awt.Dimension(250, 64));
+        jScrollPane2.setViewportView(jTable2);
+
+        jPanel2.add(jScrollPane2);
+
+        jButton2.setText("Back");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jButton2);
+
+        jTabbedPane1.addTab("Under Privileged", jPanel2);
+
+        jScrollPane3.setMaximumSize(new java.awt.Dimension(350, 200));
+        jScrollPane3.setPreferredSize(new java.awt.Dimension(400, 200));
+
+        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "App Id", "App Name", "Version Code", "Platform"
+            }
+        ));
+        jTable3.setBounds(new java.awt.Rectangle(0, 0, 350, 64));
+        jTable3.setPreferredSize(new java.awt.Dimension(250, 64));
+        jScrollPane3.setViewportView(jTable3);
+
+        jPanel3.add(jScrollPane3);
+
+        jButton3.setText("Back");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        jPanel3.add(jButton3);
+
+        jTabbedPane1.addTab("Both Over and Under Privileged", jPanel3);
+
+        jScrollPane4.setMaximumSize(new java.awt.Dimension(350, 200));
+        jScrollPane4.setPreferredSize(new java.awt.Dimension(400, 200));
+
+        jTable4.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "App Id", "App Name", "Version Code", "Platform"
+            }
+        ));
+        jTable4.setBounds(new java.awt.Rectangle(0, 0, 350, 64));
+        jTable4.setPreferredSize(new java.awt.Dimension(250, 64));
+        jScrollPane4.setViewportView(jTable4);
+
+        jPanel4.add(jScrollPane4);
+
+        jButton4.setText("Back");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+        jPanel4.add(jButton4);
+
+        jTabbedPane1.addTab("Correctly Privileged", jPanel4);
+
+        jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel1.setText("   Under Privileged iOS Apps:");
+        jLabel1.setPreferredSize(new java.awt.Dimension(200, 20));
+        jPanel5.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 200, -1));
+
+        overiOSNumber.setText("jLabel2");
+        overiOSNumber.setPreferredSize(new java.awt.Dimension(50, 20));
+        jPanel5.add(overiOSNumber, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 40, -1, -1));
+
+        jLabel4.setText("   Properly Privileged iOS Apps:");
+        jLabel4.setPreferredSize(new java.awt.Dimension(200, 20));
+        jPanel5.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+
+        jLabel5.setText("   Over Privileged iOS Apps:");
+        jLabel5.setPreferredSize(new java.awt.Dimension(200, 20));
+        jPanel5.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, -1, -1));
+
+        properiOSNumber.setText("jLabel2");
+        properiOSNumber.setPreferredSize(new java.awt.Dimension(50, 20));
+        jPanel5.add(properiOSNumber, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 0, -1, -1));
+
+        underiOSNumber.setText("jLabel2");
+        underiOSNumber.setPreferredSize(new java.awt.Dimension(50, 20));
+        jPanel5.add(underiOSNumber, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 20, -1, -1));
+
+        jLabel2.setText("   Under Privileged Android Apps:");
+        jLabel2.setPreferredSize(new java.awt.Dimension(200, 20));
+        jPanel5.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 100, 210, -1));
+
+        overAndroidNumber.setText("jLabel2");
+        overAndroidNumber.setPreferredSize(new java.awt.Dimension(50, 20));
+        jPanel5.add(overAndroidNumber, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 120, -1, -1));
+
+        jLabel6.setText("   Properly Privileged Android Apps:");
+        jLabel6.setPreferredSize(new java.awt.Dimension(200, 20));
+        jPanel5.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 80, 230, -1));
+
+        jLabel7.setText("   Over Privileged Android Apps:");
+        jLabel7.setPreferredSize(new java.awt.Dimension(200, 20));
+        jPanel5.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, -1, -1));
+
+        properAndroidNumber.setText("jLabel2");
+        properAndroidNumber.setPreferredSize(new java.awt.Dimension(50, 20));
+        jPanel5.add(properAndroidNumber, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 80, -1, -1));
+
+        underAndroidNumber.setText("jLabel2");
+        underAndroidNumber.setPreferredSize(new java.awt.Dimension(50, 20));
+        jPanel5.add(underAndroidNumber, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 100, -1, -1));
+
+        Back.setText("Back");
+        Back.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BackActionPerformed(evt);
+            }
+        });
+        jPanel5.add(Back, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 210, -1, -1));
+
+        jTabbedPane1.addTab("Statistics", jPanel5);
+
+        add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 458, 289));
     }// </editor-fold>//GEN-END:initComponents
 
-    private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+ThesisDatabase.window.selectPanel(2);        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+ThesisDatabase.window.selectPanel(2);        // TODO add your handling code here:
         // TODO add your handling code here:
-        ThesisDatabase.window.selectPanel(2);
-    }//GEN-LAST:event_backActionPerformed
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+ThesisDatabase.window.selectPanel(2);        // TODO add your handling code here:
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+ThesisDatabase.window.selectPanel(2);        // TODO add your handling code here:
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void BackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackActionPerformed
+ThesisDatabase.window.selectPanel(2);        // TODO add your handling code here:
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BackActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton backButton;
-    private javax.swing.JLabel bothLabel;
-    private javax.swing.JScrollPane bothScrollPane;
-    private javax.swing.JTable bothTable;
-    private javax.swing.JLabel goodLabel;
-    private javax.swing.JScrollPane goodScrollPane;
-    private javax.swing.JTable goodTable;
-    private javax.swing.JLabel overLabel;
-    private javax.swing.JScrollPane overScrollPane;
-    private javax.swing.JTable overTable;
-    private javax.swing.JLabel underLabel;
-    private javax.swing.JScrollPane underScrollPane;
-    private javax.swing.JTable underTable;
+    private javax.swing.JButton Back;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable2;
+    private javax.swing.JTable jTable3;
+    private javax.swing.JTable jTable4;
+    private javax.swing.JLabel overAndroidNumber;
+    private javax.swing.JLabel overiOSNumber;
+    private javax.swing.JLabel properAndroidNumber;
+    private javax.swing.JLabel properiOSNumber;
+    private javax.swing.JLabel underAndroidNumber;
+    private javax.swing.JLabel underiOSNumber;
     // End of variables declaration//GEN-END:variables
 }

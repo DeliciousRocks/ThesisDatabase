@@ -152,6 +152,47 @@ public class AddAppPanel extends javax.swing.JPanel {
         data.add(ThesisDatabase.userName);
         data.add(appName.getText());
         data.add(developerName.getText());
+        boolean exists = ThesisDatabase.isRepeat(data.get(0),data.get(4),data.get(6));
+         if (exists)
+        {
+            Object[] options1 = {"No",
+                                "Yes"};
+             int n = JOptionPane.showOptionDialog(ThesisDatabase.popUp,
+             "App you would like to submit may already exist in the database"
+            + "\nWould you like to add it anyway?",
+      "Success",
+      JOptionPane.YES_NO_OPTION,
+      JOptionPane.QUESTION_MESSAGE,
+      null,     
+      options1,  
+      options1[0]);
+      if (n==1)
+      {
+            finishAdding(newApp, data);
+      }
+        }
+        else
+            finishAdding(newApp,data);
+    }
+     catch (SQLException ex)
+    {
+        Logger.getLogger(AddAppPanel.class.getName()).log(Level.SEVERE, null, ex);
+    }
+    
+    catch (org.json.JSONException e)
+    {
+      JOptionPane.showMessageDialog(ThesisDatabase.popUp,
+          "Something appears to be wrong with the JSON file you have submitted. Please try again",
+          "Whoops!",
+          JOptionPane.ERROR_MESSAGE);
+    }
+    }
+    
+
+    private void finishAdding(Application newApp, ArrayList<String> data)
+    {
+        try
+        {
         int appId = ThesisDatabase.addNewApp(data);
         
         ArrayList<?> permissions = newApp.getInfo();
@@ -193,20 +234,13 @@ public class AddAppPanel extends javax.swing.JPanel {
       
               clearFields();
 
-        }
+     }
      catch (SQLException ex)
     {
         Logger.getLogger(AddAppPanel.class.getName()).log(Level.SEVERE, null, ex);
     }
     
-    catch (org.json.JSONException e)
-    {
-      JOptionPane.showMessageDialog(ThesisDatabase.popUp,
-          "Something appears to be wrong with the JSON file you have submitted. Please try again",
-          "Whoops!",
-          JOptionPane.ERROR_MESSAGE);
-    }
-
+    
     }//GEN-LAST:event_addAppActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed

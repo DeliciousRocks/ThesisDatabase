@@ -5,16 +5,18 @@
  */
 package thesisdatabase;
 
+import javax.swing.table.TableColumn;
+
 /**
  *
  * @author waltersquires
  */
-public class AndroidResults extends javax.swing.JPanel {
+public class AppData extends javax.swing.JPanel {
 
     /**
      * Creates new form androidResults
      */
-    public AndroidResults() {
+    public AppData() {
         initComponents();
     }
 
@@ -53,8 +55,19 @@ public class AndroidResults extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        TableColumn col = jTable1.getColumnModel().getColumn(0);
+        col.setPreferredWidth(200);
+        col = jTable1.getColumnModel().getColumn(1);
+        col.setPreferredWidth(25);
+        col = jTable1.getColumnModel().getColumn(2);
+        col.setPreferredWidth(25);
         jScrollPane1.setViewportView(jTable1);
 
+<<<<<<< HEAD:src/thesisdatabase/AndroidResults.java
+=======
+        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 380, 140));
+
+>>>>>>> master:src/thesisdatabase/AppData.java
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -76,7 +89,14 @@ public class AndroidResults extends javax.swing.JPanel {
         });
         jScrollPane2.setViewportView(jTable2);
 
+<<<<<<< HEAD:src/thesisdatabase/AndroidResults.java
         jLabel1.setText("Android Application Results");
+=======
+        add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 380, 60));
+
+        jLabel1.setText("Application Data");
+        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
+>>>>>>> master:src/thesisdatabase/AppData.java
 
         jButton1.setText("Back");
         jButton1.addActionListener(new java.awt.event.ActionListener() {

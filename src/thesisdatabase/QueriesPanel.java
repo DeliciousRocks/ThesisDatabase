@@ -8,6 +8,7 @@ package thesisdatabase;
 import javax.swing.JOptionPane;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
@@ -35,12 +36,18 @@ public class QueriesPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jButton1 = new javax.swing.JButton();
         welcomeLabel = new javax.swing.JLabel();
         userNameLabel = new javax.swing.JLabel();
         addAppButton = new javax.swing.JButton();
         viewAppDataButton = new javax.swing.JButton();
         appId = new javax.swing.JTextField();
         appPrivilegeButton = new javax.swing.JButton();
+        addUserButton = new javax.swing.JButton();
+        viewPermissionsButton = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+
+        jButton1.setText("jButton1");
 
         welcomeLabel.setText("Welcome");
 
@@ -60,10 +67,37 @@ public class QueriesPanel extends javax.swing.JPanel {
             }
         });
 
+        appId.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                appIdActionPerformed(evt);
+            }
+        });
+
         appPrivilegeButton.setText("View App Privilege Statuses");
         appPrivilegeButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 appPrivilegeButtonActionPerformed(evt);
+            }
+        });
+
+        addUserButton.setText("Add New User");
+        addUserButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addUserButtonActionPerformed(evt);
+            }
+        });
+
+        viewPermissionsButton.setText("View Permissions");
+        viewPermissionsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                viewPermissionsButtonActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("Review Unknown Permissions");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
             }
         });
 
@@ -80,13 +114,18 @@ public class QueriesPanel extends javax.swing.JPanel {
                         .addComponent(userNameLabel))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(22, 22, 22)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(addAppButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(viewAppDataButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(appId, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(appPrivilegeButton))))
+                            .addComponent(addUserButton)
+                            .addComponent(addAppButton))
+                        .addGap(112, 112, 112)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(viewAppDataButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(appId, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(appPrivilegeButton)
+                            .addComponent(viewPermissionsButton)
+                            .addComponent(jButton2))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -100,10 +139,15 @@ public class QueriesPanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(addAppButton)
                     .addComponent(appPrivilegeButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(addUserButton)
                     .addComponent(viewAppDataButton)
-                    .addComponent(appId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(appId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(viewPermissionsButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton2))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -116,13 +160,13 @@ public class QueriesPanel extends javax.swing.JPanel {
      {
        ResultSet app = ThesisDatabase.viewApp(Integer.parseInt(appId.getText()));
         while (app.next()) {
-              String appType = app.getString("os");
-              if (appType.equals("Android"))
-              {
-                  AndroidResults temp = ThesisDatabase.window.getAndroidPanel();
+              
+                  String name = ThesisDatabase.getUserName(Integer.parseInt(app.getString("addedby")));
+            
+                  AppData temp = ThesisDatabase.window.getAndroidPanel();
                   temp.jTable2.setValueAt(app.getString("appName"), 0, 0);
                   temp.jTable2.setValueAt(app.getString("developer"), 0,1);
-                  temp.jTable2.setValueAt(app.getString("addedby"), 0, 2);
+                  temp.jTable2.setValueAt(name, 0, 2);
                   temp.jTable2.setValueAt(app.getString("dateadded"), 0, 3); 
 
                   DefaultTableModel model = (DefaultTableModel) temp.jTable1.getModel();
@@ -145,15 +189,6 @@ public class QueriesPanel extends javax.swing.JPanel {
                   }
                   
                   ThesisDatabase.window.selectPanel(3);
-
-              }
-              //String appName = rs.getString(1);
-              //System.out.print(appName);
-              //String developer = rs.getString("os");
-              //int id2 = rs.getInt("addedby");
-              //String password = rs.getString("dateadded");
-              //System.out.println("appName" + "\t" + developer +
-              //                   "\t" + id2);
           }
      }
      catch(NumberFormatException e)
@@ -172,17 +207,123 @@ public class QueriesPanel extends javax.swing.JPanel {
         userNameLabel.setText(name);
     }
     
+    
     private void appPrivilegeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_appPrivilegeButtonActionPerformed
+     try
+     {
+       ArrayList<ResultSet> app = ThesisDatabase.getAppsbyStatus();
+       for(int i = 0; i<4; i++)
+       {
+         while (app.get(i).next())
+         {
+             int row = 0;
+              javax.swing.JTable temp = new javax.swing.JTable();
+              temp = ThesisDatabase.window.getPrivilegesPanel().getTable(i);
+                  temp.setValueAt(app.get(i).getInt("appId"), 0, 0);
+                  temp.setValueAt(app.get(i).getString("appName"), 0,1);
+                  temp.setValueAt(app.get(i).getString("versioncode"), 0,2);
+                  temp.setValueAt(app.get(i).getString("os"), 0,3);
+
+                  DefaultTableModel model = (DefaultTableModel) temp.getModel();
+                  int h= temp.getRowCount();    
+                        if(row>= h)
+                        {
+                          h++;
+                          model.setRowCount(h);
+                        }
+                  }  
+       }
+        
+                  
+                  ThesisDatabase.window.selectPanel(3);
+
+             
+          }
+     
+      catch (SQLException ex) {
+            Logger.getLogger(QueriesPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+                 
+        
         ThesisDatabase.window.selectPanel(4);
     }//GEN-LAST:event_appPrivilegeButtonActionPerformed
 
+    private void appIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_appIdActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_appIdActionPerformed
+
+    private void addUserButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addUserButtonActionPerformed
+        ThesisDatabase.window.selectPanel(5);
+    }//GEN-LAST:event_addUserButtonActionPerformed
+
+    private void viewPermissionsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewPermissionsButtonActionPerformed
+try
+     {
+       ResultSet permissions = ThesisDatabase.getAllPermissions();
+       
+                  ViewPermissionsPanel temp = ThesisDatabase.window.getViewPermissionsPanel();
+                  DefaultTableModel model = (DefaultTableModel) temp.jTable1.getModel();
+                  int h= temp.jTable1.getRowCount();
+                  int row = 0;
+                  while(permissions.next())
+                  {
+                     temp.jTable1.setValueAt(permissions.getString("permissionname"), row, 0);
+                     temp.jTable1.setValueAt(permissions.getBoolean("potentiallyinsecure"), row,1);
+                     row++;
+                        if(row>= h)
+                        {
+                          h++;
+                          model.setRowCount(h);
+                        }
+                  }
+                  
+                  ThesisDatabase.window.selectPanel(6);
+          }
+     
+     catch(NumberFormatException e)
+     {
+          JOptionPane.showMessageDialog(ThesisDatabase.popUp,
+          "Not an integer. Please try again",
+          "Whoops!",
+          JOptionPane.ERROR_MESSAGE);
+     }  catch (SQLException ex) {
+            Logger.getLogger(QueriesPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+               }//GEN-LAST:event_viewPermissionsButtonActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+                  ThesisDatabase.window.selectPanel(7);
+
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    public void guestMode()
+    {
+        userMode();
+        addAppButton.setVisible(false);
+        jButton2.setVisible(false);
+        //addAppButton.setVisible(false);
+        //addAppButton.setVisible(false);
+
+    }
+    
+    public void userMode()
+    {
+        addUserButton.setVisible(false);
+        //addAppButton.setVisible(false);
+        //addAppButton.setVisible(false);
+
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addAppButton;
+    private javax.swing.JButton addUserButton;
     private javax.swing.JTextField appId;
     private javax.swing.JButton appPrivilegeButton;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel userNameLabel;
     private javax.swing.JButton viewAppDataButton;
+    private javax.swing.JButton viewPermissionsButton;
     private javax.swing.JLabel welcomeLabel;
     // End of variables declaration//GEN-END:variables
 }
