@@ -38,6 +38,8 @@ public class AddUserPanel extends javax.swing.JPanel {
         role = new javax.swing.JComboBox();
         back = new javax.swing.JButton();
         submit = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        quota = new javax.swing.JTextField();
 
         jLabel1.setText("User Name:");
 
@@ -72,6 +74,14 @@ public class AddUserPanel extends javax.swing.JPanel {
             }
         });
 
+        jLabel4.setText("Quota:");
+
+        quota.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                quotaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -79,7 +89,7 @@ public class AddUserPanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(22, 22, 22)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(back)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(submit))
@@ -87,12 +97,14 @@ public class AddUserPanel extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
                             .addComponent(jLabel2)
-                            .addComponent(jLabel3))
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(role, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(password)
-                            .addComponent(userName))))
+                            .addComponent(userName)
+                            .addComponent(quota))))
                 .addContainerGap(191, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -110,11 +122,15 @@ public class AddUserPanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(role, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(30, 30, 30)
+                .addGap(2, 2, 2)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(quota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(back)
                     .addComponent(submit))
-                .addContainerGap(107, Short.MAX_VALUE))
+                .addContainerGap(80, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -132,34 +148,38 @@ public class AddUserPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_backActionPerformed
 
     private void submitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitActionPerformed
-       try 
-       {
-        String rs = (String)role.getSelectedItem();
-        int ri = -1;
-        if(rs.equals("Admin"))
-            ri=0;
-        else if(rs.equals("User"))
-            ri=1;
-        else if(rs.equals("Guest"))
-            ri=2;
-        boolean success = ThesisDatabase.addUser(userName.getText(), password.getText(), ri);
-        if (success)
-        {
-        clearFields();
-        ThesisDatabase.window.selectPanel(2);  
+       try {
+            String rs = (String)role.getSelectedItem();
+            int ri = -1;
+            if(rs.equals("Admin"))
+                ri=0;
+            else if(rs.equals("User"))
+                ri=1;
+            else if(rs.equals("Guest"))
+                ri=2;
+            boolean success = ThesisDatabase.addUser(userName.getText(), password.getText(), ri, Integer.parseInt(quota.getText()));
+            if (success) {
+                clearFields();
+                ThesisDatabase.window.selectPanel(2);  
+            } else {
+                JOptionPane.showMessageDialog(ThesisDatabase.popUp,
+                        "Someone else has the username you have selected. Please choose a new one and try again",
+                        "Whoops!",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (NumberFormatException f) {
+            JOptionPane.showMessageDialog(ThesisDatabase.popUp,
+                    "Please enter an integer for the quota.",
+                    "Whoopsie daisie!",
+                    JOptionPane.ERROR_MESSAGE);
+        } catch (SQLException e ) {
+            e.printStackTrace();
         }
-        else 
-        {
-          JOptionPane.showMessageDialog(ThesisDatabase.popUp,
-          "Someone else has the username you have selected. Please choose a new one and try again",
-          "Whoops!",
-          JOptionPane.ERROR_MESSAGE);
-        }
-        }
-       catch (SQLException e ) {
-        e.printStackTrace();
-       }
     }//GEN-LAST:event_submitActionPerformed
+
+    private void quotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quotaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_quotaActionPerformed
 
     private void clearFields()
 {
@@ -172,7 +192,9 @@ public class AddUserPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JTextField password;
+    private javax.swing.JTextField quota;
     private javax.swing.JComboBox role;
     private javax.swing.JButton submit;
     private javax.swing.JTextField userName;

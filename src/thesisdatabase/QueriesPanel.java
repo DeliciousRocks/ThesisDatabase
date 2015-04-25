@@ -46,10 +46,11 @@ public class QueriesPanel extends javax.swing.JPanel {
         addUserButton = new javax.swing.JButton();
         viewPermissionsButton = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        editUserButton = new javax.swing.JButton();
 
         jButton1.setText("jButton1");
 
-        welcomeLabel.setText("Welcome");
+        welcomeLabel.setText("Welcome,");
 
         userNameLabel.setText("<userName>");
 
@@ -101,6 +102,13 @@ public class QueriesPanel extends javax.swing.JPanel {
             }
         });
 
+        editUserButton.setText("Edit User");
+        editUserButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editUserButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -116,7 +124,8 @@ public class QueriesPanel extends javax.swing.JPanel {
                         .addGap(22, 22, 22)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(addUserButton)
-                            .addComponent(addAppButton))
+                            .addComponent(addAppButton)
+                            .addComponent(editUserButton))
                         .addGap(112, 112, 112)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -146,6 +155,9 @@ public class QueriesPanel extends javax.swing.JPanel {
                     .addComponent(appId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(viewPermissionsButton)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(viewPermissionsButton)
+                    .addComponent(editUserButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton2))
         );
@@ -292,9 +304,8 @@ try
                }//GEN-LAST:event_viewPermissionsButtonActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-            try
-     {
-       ResultSet permissions = ThesisDatabase.getAllPermissions();
+            try {
+                  ResultSet permissions = ThesisDatabase.getAllPermissions();
        
                   ViewPermissionsPanel temp = ThesisDatabase.window.getViewPermissionsPanel();
                   DefaultTableModel model = (DefaultTableModel) temp.jTable1.getModel();
@@ -319,11 +330,16 @@ try
             Logger.getLogger(QueriesPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     
-                                                 
-     
-        
+                      ThesisDatabase.window.selectPanel(7);
 
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void editUserButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editUserButtonActionPerformed
+        String username = JOptionPane.showInputDialog("What is the username of the user you would like to edit?");
+        ThesisDatabase.window.setName(username);
+        ThesisDatabase.loadUserForEditing(username);
+        ThesisDatabase.window.selectPanel(8);
+    }//GEN-LAST:event_editUserButtonActionPerformed
 
     public void guestMode()
     {
@@ -348,6 +364,7 @@ try
     private javax.swing.JButton addUserButton;
     private javax.swing.JTextField appId;
     private javax.swing.JButton appPrivilegeButton;
+    private javax.swing.JButton editUserButton;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel userNameLabel;

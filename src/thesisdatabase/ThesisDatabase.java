@@ -14,6 +14,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Set;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -41,10 +42,9 @@ public class ThesisDatabase
         //SwingUtilities.invokeLater(new Runnable() {
             public void run()
             {
-                window =new ThesisFrame();
+                window = new ThesisFrame();
                 window.setVisible(true);
                 window.selectPanel(1);
-
             }
             
         });
@@ -64,8 +64,8 @@ public class ThesisDatabase
      {
      e1.printStackTrace();
      }
-     String url = "jdbc:postgresql://localhost:5432/Static_Analysis";
      //String url = "jdbc:postgresql://localhost:5432/Thesis";
+     String url = "jdbc:postgresql://localhost:5432/Static_Analysis";
      String user = "postgres";
      String password = "A1B2C3";
 
@@ -194,6 +194,7 @@ public class ThesisDatabase
 //Adds app not permission. Yet
 public static int addNewApp(ArrayList<String> data)
         throws SQLException {
+
        int appId = -1;
        PreparedStatement addNewApp = null;
        String newAppString = "select addnewapp(?,?,?,?,?,?,?,?,?,?,?)";
@@ -398,18 +399,19 @@ public static Application readJSON(String json) throws org.json.JSONException
       return temp;
     }
     
-    public static boolean addUser(String x, String y,int z)
+    public static boolean addUser(String x, String y, int z, int quota)
         throws SQLException {
 
        PreparedStatement adduser = null;
        String add =
-           "select createUser(?,?,?)";
+           "select createUser(?,?,?,?)";
        try {
             
               adduser = conn.prepareStatement(add);
               adduser.setString(1, x);
               adduser.setString(2, y);
               adduser.setInt(3, z);
+              adduser.setInt(4, quota);
 
               ResultSet rs = adduser.executeQuery();
               if(rs.next())
@@ -426,13 +428,75 @@ public static Application readJSON(String json) throws org.json.JSONException
        return false;
    }
     
+    public static boolean updateUser(String username, String password, int role, int quota) {
+        PreparedStatement updateUserStmt = null;
+        String updateUserQuery =
+                  "update users "
+                + "set password=?, role=?, quota=? "
+                + "where username=?";
+                
+        try {
+            updateUserStmt = conn.prepareStatement(updateUserQuery);
+            System.out.println(1);
+            updateUserStmt.setString(1, password);
+            System.out.println(2);
+            updateUserStmt.setInt(2, role);
+            System.out.println(3);
+            updateUserStmt.setInt(3, quota);
+            System.out.println(4);
+            updateUserStmt.setString(4, username);
+            
+            System.out.println(5);
+            updateUserStmt.executeUpdate();
+            System.out.println(6);
+            JOptionPane.showMessageDialog(window, "The user has successfully been updated",
+                    "User Update Successfull", JOptionPane.DEFAULT_OPTION);            
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(window, "Unable to update user:\n" + e,
+                    "User Update Failed", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+    
+    public static boolean loadUserForEditing(String username)
+    {
+        String getUserQuery = "select * from users where username=?";
+        
+        try {
+            PreparedStatement stmt = conn.prepareStatement(getUserQuery);
+            stmt.setString(1, username);
+            
+            ResultSet rs = stmt.executeQuery();
+            // If there is someone with that username, set up
+            // the EditUserPanel. Otherwise, return false.
+            if (rs.next()) {
+                // Real convoluted way of doing this, because ThesisFrame
+                // calls a method in EditUserPanel, but it don't matta.
+                window.loadUserForEditing(
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getInt(4),
+                        rs.getString(5));                
+            } else {
+                return false;
+            }
+        } catch (SQLException e) {
+            return false;
+        }
+        return true;
+    }
+    
     public static ResultSet getAllPermissions()
       throws SQLException {
   
               
       try {
           PreparedStatement stmt = null;
-          String query = "Select * from permission where permissionname not in (select getunknownpermissions()) order by permissionname;";
+          String query = "Select * from permission"
+                  + "where permissionname not in"
+                  + "(select getunknownpermissions()) order by permissionname;";
           stmt = conn.prepareStatement(query);
           ResultSet rs = stmt.executeQuery();
           return rs;

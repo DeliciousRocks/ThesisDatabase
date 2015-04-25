@@ -27,10 +27,8 @@ public class ThesisFrame extends java.awt.Frame {
         panels.add(addUserPanel1);
         panels.add(viewPermissionsPanel1);
         panels.add(classifyUnknownPermissionsPanel1);
+        panels.add(editUserPanel1);
         //panels.add(addUserPanel1);
-
-        
-        
     }
     
     public void selectPanel(int s)
@@ -47,6 +45,7 @@ public class ThesisFrame extends java.awt.Frame {
     public void setName(String name)
     {
         queriesPanel1.setName(name);
+        editUserPanel1.setName(name);
     }
     
     public AppData getAndroidPanel()
@@ -75,6 +74,7 @@ public class ThesisFrame extends java.awt.Frame {
         addUserPanel1 = new thesisdatabase.AddUserPanel();
         viewPermissionsPanel1 = new thesisdatabase.ViewPermissionsPanel();
         classifyUnknownPermissionsPanel1 = new thesisdatabase.classifyUnknownPermissionsPanel();
+        editUserPanel1 = new thesisdatabase.EditUserPanel();
 
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -90,6 +90,7 @@ public class ThesisFrame extends java.awt.Frame {
         add(addUserPanel1, "card7");
         add(viewPermissionsPanel1, "card8");
         add(classifyUnknownPermissionsPanel1, "card9");
+        add(editUserPanel1, "card10");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -115,6 +116,11 @@ public class ThesisFrame extends java.awt.Frame {
     {
         return viewPermissionsPanel1;
     }
+    
+    public void loadUserForEditing(String username, String password, int role, String quota) {
+        editUserPanel1.setUser(username, password, role, quota);
+    }
+
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -123,6 +129,7 @@ public class ThesisFrame extends java.awt.Frame {
     private thesisdatabase.AppData androidResults1;
     private thesisdatabase.AppPrivilegesPanel appPrivilegesPanel2;
     private thesisdatabase.classifyUnknownPermissionsPanel classifyUnknownPermissionsPanel1;
+    private thesisdatabase.EditUserPanel editUserPanel1;
     private thesisdatabase.LoginPanel loginPanel2;
     private thesisdatabase.QueriesPanel queriesPanel1;
     private thesisdatabase.ViewPermissionsPanel viewPermissionsPanel1;

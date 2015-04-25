@@ -11,7 +11,6 @@ CREATE TABLE users (
 );
 
 
-
 CREATE TABLE application (
     appid integer primary key,
     appname character varying(255),
@@ -29,7 +28,6 @@ CREATE TABLE application (
 
     constraint addedby_fkey FOREIGN KEY (addedby) REFERENCES users(userid)
 );
-
 
 
 CREATE TABLE framework (
@@ -122,6 +120,14 @@ begin
 	return privilegeStatus;
 end $$;
 
+create function getAppsWithPrivilegeStatus(status integer)
+	returns setof application
+as $$
+	select	*
+	from	application
+	where	(select * from checkAppPrivilegeStatus(appid))=status;
+$$ language sql;
+
 
 create function addnewapp(filename text, packagename text, minimumversion double precision, targetversion double precision, versioncode text, versionname text, os text, username text, appname text, developer text, genre text) RETURNS integer
     LANGUAGE plpgsql
@@ -138,6 +144,7 @@ BEGIN
 	return appId;
 end;
 $$;
+
 
 
 CREATE FUNCTION addpackage(appid integer, packagename text) RETURNS void
@@ -167,8 +174,7 @@ BEGIN
 end;
 $$;
 
-
-CREATE FUNCTION addframework()
+CREATE OR REPLACE FUNCTION addframework()
   RETURNS trigger AS
 $BODY$
 DECLARE 
@@ -183,7 +189,10 @@ BEGIN
 	return new;
 end;
 $BODY$
-  LANGUAGE plpgsql;
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION addframework()
+  OWNER TO postgres;
 
 
 create trigger ensurepermissionexists before insert on apphaspermission
@@ -214,6 +223,7 @@ $$;
 */
 
 
+
 CREATE FUNCTION getuserrole(name text)
   RETURNS integer AS
 $BODY$
@@ -229,6 +239,7 @@ DECLARE
 	end;
 $BODY$
   LANGUAGE plpgsql;
+
 
 CREATE FUNCTION isRepeat(
     fileN text,
@@ -304,8 +315,8 @@ create function createuser(
 declare
 	userId integer;
 begin
-	select createuserid() into userId;
-	insert into users values(default,name,password,role,quota);
+	--select createuserid() into userId;
+	insert into users values(default,name,password,role, quota);
 	return userId;
 end $$;
 
@@ -333,11 +344,6 @@ end
 $$;
 
 
-
---
--- TOC entry 195 (class 1255 OID 51208)
--- Name: getuserid(text); Type: FUNCTION; Schema: public; Owner: postgres
---
 
 CREATE FUNCTION getuserid(name text) RETURNS integer
     LANGUAGE plpgsql

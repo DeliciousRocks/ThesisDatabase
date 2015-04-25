@@ -36,6 +36,7 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="addUserButton" min="-2" max="-2" attributes="0"/>
                           <Component id="addAppButton" min="-2" max="-2" attributes="0"/>
+                          <Component id="editUserButton" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="112" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
@@ -74,7 +75,10 @@
                   <Component id="appId" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="viewPermissionsButton" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="viewPermissionsButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="editUserButton" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace max="32767" attributes="0"/>
               <Component id="jButton2" min="-2" max="-2" attributes="0"/>
           </Group>
@@ -84,7 +88,7 @@
   <SubComponents>
     <Component class="javax.swing.JLabel" name="welcomeLabel">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Welcome"/>
+        <Property name="text" type="java.lang.String" value="Welcome,"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="userNameLabel">
@@ -143,6 +147,14 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton2ActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="editUserButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Edit User"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="editUserButtonActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>
