@@ -5,17 +5,20 @@
  */
 package thesisdatabase;
 
+import javax.swing.ButtonGroup;
+
 /**
  *
  * @author waltersquires
  */
 public class classifyUnknownPermissionsPanel extends javax.swing.JPanel {
-
+String permission ="";
     /**
      * Creates new form classifyUnknownPermissionsPanel
      */
     public classifyUnknownPermissionsPanel() {
         initComponents();
+        groupButton();
     }
 
     /**
@@ -28,13 +31,13 @@ public class classifyUnknownPermissionsPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        permissions = new javax.swing.JTable();
         back = new javax.swing.JButton();
         updateButton = new javax.swing.JButton();
         secure = new javax.swing.JRadioButton();
         insecure = new javax.swing.JRadioButton();
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        permissions.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null},
                 {null},
@@ -45,7 +48,12 @@ public class classifyUnknownPermissionsPanel extends javax.swing.JPanel {
                 "Permission"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        permissions.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                permissionsMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(permissions);
 
         back.setText("Back");
         back.addActionListener(new java.awt.event.ActionListener() {
@@ -111,8 +119,23 @@ public class classifyUnknownPermissionsPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void groupButton( ) {
+
+        ButtonGroup bg1 = new ButtonGroup( );
+
+        bg1.add(secure);
+        bg1.add(insecure);
+
+}
+    
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
-        // TODO add your handling code here:
+       boolean isSecure;
+        if (insecure.isSelected())
+            isSecure=false;
+        else if (secure.isSelected())
+            isSecure=true;
+        
+        
     }//GEN-LAST:event_updateButtonActionPerformed
 
     private void secureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_secureActionPerformed
@@ -127,12 +150,26 @@ public class classifyUnknownPermissionsPanel extends javax.swing.JPanel {
                 ThesisDatabase.window.selectPanel(2);
     }//GEN-LAST:event_backActionPerformed
 
+    private void permissionsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_permissionsMouseClicked
+try
+{
+    int row = permissions.getSelectedRow();
+    int column =permissions.getSelectedColumn();
+    permission = (String)permissions.getValueAt(row, column);
+}
+catch(Exception e)
+{
+    
+}
+// TODO add your handling code here:
+    }//GEN-LAST:event_permissionsMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton back;
     private javax.swing.JRadioButton insecure;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable permissions;
     private javax.swing.JRadioButton secure;
     private javax.swing.JButton updateButton;
     // End of variables declaration//GEN-END:variables

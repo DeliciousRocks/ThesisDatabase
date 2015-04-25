@@ -194,21 +194,30 @@ public class ThesisDatabase
 //Adds app not permission. Yet
 public static int addNewApp(ArrayList<String> data)
         throws SQLException {
-
        int appId = -1;
        PreparedStatement addNewApp = null;
-       String newAppString =
-           "select addnewapp(?,?,?,?,?,?,?,?,?,?)";
+       String newAppString = "select addnewapp(?,?,?,?,?,?,?,?,?,?,?)";
        try {
               addNewApp = conn.prepareStatement(newAppString);
               
-              for (int i = 0; i<10;i++)
+              for (int i = 0; i<11;i++)
               {
                   int j = i+1;
                   if (i == 2 || i ==3)
+                  {
+                    try
+                    {
                     addNewApp.setFloat(j, Float.valueOf(data.get(i)));
+                    }
+                    catch (NumberFormatException e)
+                    {
+                      addNewApp.setFloat(j, -1);
+                    }
+                  }
                   else
-                     addNewApp.setString(j, data.get(i));
+                  {
+                      addNewApp.setString(j, data.get(i));
+                  }
               }
               ResultSet rs = addNewApp.executeQuery();
               if(rs.next())
@@ -222,18 +231,17 @@ public static int addNewApp(ArrayList<String> data)
        return -1;
    }
 
-public static boolean isRepeat(String x, String y,String z)
+public static boolean isRepeat(String x, String y)
         throws SQLException {
 
        PreparedStatement isRepeat = null;
        String repeat =
-           "select isRepeat(?,?,?)";
+           "select isRepeat(?,?)";
        try {
             
               isRepeat = conn.prepareStatement(repeat);
               isRepeat.setString(1, x);
               isRepeat.setString(2, y);
-              isRepeat.setString(3, z);
 
               ResultSet rs = isRepeat.executeQuery();
               if(rs.next())
@@ -280,7 +288,7 @@ public static void addPackage(int id, String x)
 
        PreparedStatement addPackage = null;
        String newPackageString =
-           "select addpackage(?,?)";
+           "insert into apphasframework values(?, ?)";
        try {
               addPackage = conn.prepareStatement(newPackageString);
               addPackage.setInt(1, id);
