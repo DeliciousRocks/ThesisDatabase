@@ -23,6 +23,8 @@ CREATE TABLE application (
     addedby integer,
     developer character varying(255),
     os character varying(255),
+    genre character varying(255),
+
     constraint addedby_fkey FOREIGN KEY (addedby) REFERENCES users(userid)
 );
 
@@ -118,7 +120,7 @@ begin
 end $$;
 
 
-create function addnewapp(filename text, packagename text, minimumversion double precision, targetversion double precision, versioncode text, versionname text, os text, username text, appname text, developer text) RETURNS integer
+create function addnewapp(filename text, packagename text, minimumversion double precision, targetversion double precision, versioncode text, versionname text, os text, username text, appname text, developer text, genre text) RETURNS integer
     LANGUAGE plpgsql
     AS $$
 DECLARE 
@@ -128,8 +130,8 @@ BEGIN
 	Select numberOfApps() into appId;
 	Select getUserId(userName) into userId;
 
-	insert into application(appid,appname,filename,packagename,minimumversion,targetversion,versionname,versioncode,dateadded,addedby,developer,os) 
-	                values (appId,appname,filename,packagename,minimumversion,targetversion, versioncode,versionname,Now(),userId,developer,os);
+	insert into application(appid,appname,filename,packagename,minimumversion,targetversion,versionname,versioncode,dateadded,addedby,developer,os,genre) 
+	                values (appId,appname,filename,packagename,minimumversion,targetversion, versioncode,versionname,Now(),userId,developer,os,genre);
 	return appId;
 end;
 $$;
@@ -163,10 +165,35 @@ BEGIN
 end;
 $$;
 
+CREATE OR REPLACE FUNCTION addframework()
+  RETURNS trigger AS
+$BODY$
+DECLARE 
+	FrameworkExists integer;
+BEGIN
+	Select count(*) into FrameworkExists from framework where frameworkname = new.packagename;
+	if (FrameworkExists = 0) then
+		Insert Into framework values (new.packagename, null);
+	end if;
+	--Insert into apphaspermission(appid,permissionname,requested,required) 
+	--                values (appId,appname,permissionName,requested,required);
+	return new;
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION addframework()
+  OWNER TO postgres;
+
 
 create trigger ensurepermissionexists before insert on apphaspermission
 	for each row
 		execute procedure addpermission();
+
+create trigger ensureFrameworkexists before insert on apphasframework
+	for each row
+		execute procedure addframework();
+
 
 /*
 CREATE FUNCTION addpermission(appd integer, pname text, rted boolean, rred boolean) RETURNS void
@@ -186,6 +213,51 @@ end;
 $$;
 */
 
+
+
+CREATE OR REPLACE FUNCTION getuserrole(name text)
+  RETURNS integer AS
+$BODY$
+DECLARE 
+	urole integer;
+	BEGIN
+		select role into urole
+		from users
+		where username = name;
+		
+		return urole;
+			
+	end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION getuserid(text)
+  OWNER TO postgres;
+
+
+
+CREATE OR REPLACE FUNCTION isRepeat(
+    fileN text,
+    vName text
+    )
+  RETURNS boolean AS
+$BODY$
+DECLARE
+	repeat integer;
+BEGIN
+	Select count(*) into repeat from application where filename = fileN AND versionName =vName;
+	if (repeat>0) 
+	THEN 
+		return true;
+	else 
+		return false;
+	end if;
+	END
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION addpackage(integer, text)
+  OWNER TO postgres;
 
 
 CREATE FUNCTION checkpermission() RETURNS trigger

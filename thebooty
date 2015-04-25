@@ -1,0 +1,42 @@
+
+{"result":"ok","file":"com_android2_calculator3-63.apk","permissions":[{"requested":false,"permission":"android.permission.READ_EXTERNAL_STORAGE","required":true},{"requested":true,"permission":"android.permission.SYSTEM_ALERT_WINDOW","required":false},{"requested":false,"permission":"android.permission.WRITE_EXTERNAL_STORAGE","required":true},{"requested":true,"permission":"android.permission.INTERNET","required":true},{"requested":true,"permission":"android.permission.VIBRATE","required":true},{"requested":false,"permission":"android.permission.WAKE_LOCK","required":true},{"requested":false,"permission":"android.permission.ACCESS_NETWORK_STATE","required":true}],"properties":{"platform":"Android","packageName":"com.android2.calculator3","targetPlatformVersion":"19","versionCode":"63","versionName":"4.3","minimumPlatformVersion":"14"}}
+
+
+
+{"result":"ok","file":"com_asksven_betterwifionoff-43.apk","permissions":[{"requested":false,"permission":"android.permission.READ_EXTERNAL_STORAGE","required":true},{"requested":true,"permission":"android.permission.WRITE_EXTERNAL_STORAGE","required":true},{"requested":true,"permission":"android.permission.READ_LOGS","required":false},{"requested":true,"permission":"android.permission.ACCESS_WIFI_STATE","required":true},{"requested":true,"permission":"android.permission.ACCESS_COARSE_LOCATION","required":true},{"requested":true,"permission":"android.permission.BATTERY_STATS","required":false},{"requested":true,"permission":"android.permission.READ_PHONE_STATE","required":false},{"requested":true,"permission":"android.permission.RECEIVE_BOOT_COMPLETED","required":false},{"requested":true,"permission":"android.permission.INTERNET","required":true},{"requested":true,"permission":"android.permission.CHANGE_WIFI_STATE","required":true},{"requested":false,"permission":"android.permission.ACCESS_FINE_LOCATION","required":true},{"requested":true,"permission":"android.permission.CHANGE_NETWORK_STATE","required":false},{"requested":true,"permission":"android.permission.ACCESS_NETWORK_STATE","required":true},{"requested":true,"permission":"android.permission.WAKE_LOCK","required":true}],"properties":{"platform":"Android","packageName":"com.asksven.betterwifionoff","targetPlatformVersion":"15","versionCode":"43","versionName":"2.1.0.0","minimumPlatformVersion":"7"}}
+
+
+
+{"result":"ok","file":"com_nolanlawson_chordreader-8.apk","permissions":[{"requested":false,"permission":"android.permission.READ_EXTERNAL_STORAGE","required":true},{"requested":false,"permission":"android.permission.RECEIVE_BOOT_COMPLETED","required":true},{"requested":true,"permission":"android.permission.INTERNET","required":true},{"requested":true,"permission":"android.permission.WRITE_EXTERNAL_STORAGE","required":true},{"requested":false,"permission":"android.permission.ACCESS_NETWORK_STATE","required":true},{"requested":true,"permission":"android.permission.WAKE_LOCK","required":false}],"properties":{"platform":"Android","packageName":"com.nolanlawson.chordreader","targetPlatformVersion":"4","versionCode":"8","versionName":"1.0.1","minimumPlatformVersion":"3"}}
+
+
+{"result":"ok","file":"org_anddev_andengine_examples-36.apk","permissions":[{"requested":false,"permission":"android.permission.READ_EXTERNAL_STORAGE","required":true},{"requested":true,"permission":"android.permission.READ_PHONE_STATE","required":true},{"requested":true,"permission":"android.permission.CAMERA","required":true},{"requested":true,"permission":"android.permission.WRITE_EXTERNAL_STORAGE","required":true},{"requested":true,"permission":"android.permission.INTERNET","required":true},{"requested":false,"permission":"android.permission.VIBRATE","required":true},{"requested":true,"permission":"android.permission.ACCESS_WIFI_STATE","required":true},{"requested":true,"permission":"android.permission.WAKE_LOCK","required":true}],"properties":{"platform":"Android","packageName":"org.anddev.andengine.examples","targetPlatformVersion":"4","versionCode":"36","versionName":"1.3.6","minimumPlatformVersion":"4"}}
+--------------IOS-----------------------
+
+{"result":"ok",
+"frameworks":
+	[
+	{"framework":"UIKit"},
+	{"framework":"OpenAL"},
+	{"framework":"OpenGLES"},
+	{"framework":"CoreAudio"},
+	{"framework":"AudioToolbox"},
+	{"framework":"QuartzCore"},
+	{"framework":"Foundation"},
+	{"framework":"CoreFoundation"},
+	{"framework":"CoreImage"},
+	{"framework":"CoreGraphics"}
+	],
+"file":"canabalt-ios-master.zip",
+"properties":
+	{"platform":"iOS",
+	"packageName":"Canabalt",
+	"targetPlatformVersion":"",
+	"versionCode":"1.6",
+	"versionName":"",
+	"minimumPlatformVersion":""}}
+
+
+{"result":"ok","frameworks":[{"framework":"UIKit"},{"framework":"OpenAL"},{"framework":"CoreAudio"},{"framework":"AudioToolbox"},{"framework":"OpenGLES"},{"framework":"QuartzCore"},{"framework":"Foundation"},{"framework":"CoreFoundation"},{"framework":"AVFoundation"},{"framework":"CoreGraphics"}],"file":"Bubbsy.zip","properties":{"platform":"iOS","packageName":"Bubbsy","targetPlatformVersion":"","versionCode":"2.1","versionName":"","minimumPlatformVersion":""}}
+
+

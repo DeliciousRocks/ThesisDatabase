@@ -292,7 +292,36 @@ try
                }//GEN-LAST:event_viewPermissionsButtonActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-                  ThesisDatabase.window.selectPanel(7);
+            try
+     {
+       ResultSet permissions = ThesisDatabase.getAllPermissions();
+       
+                  ViewPermissionsPanel temp = ThesisDatabase.window.getViewPermissionsPanel();
+                  DefaultTableModel model = (DefaultTableModel) temp.jTable1.getModel();
+                  int h= temp.jTable1.getRowCount();
+                  int row = 0;
+                  while(permissions.next())
+                  {
+                     temp.jTable1.setValueAt(permissions.getString("permissionname"), row, 0);
+                     temp.jTable1.setValueAt(permissions.getBoolean("potentiallyinsecure"), row,1);
+                     row++;
+                        if(row>= h)
+                        {
+                          h++;
+                          model.setRowCount(h);
+                        }
+                  }
+                  
+             ThesisDatabase.window.selectPanel(7);
+          }
+     
+      catch (SQLException ex) {
+            Logger.getLogger(QueriesPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    
+                                                 
+     
+        
 
     }//GEN-LAST:event_jButton2ActionPerformed
 
