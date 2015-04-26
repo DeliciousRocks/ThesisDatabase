@@ -120,6 +120,11 @@ public class ThesisFrame extends java.awt.Frame {
         return viewPermissionsPanel1;
     }
     
+     public classifyUnknownPermissionsPanel getViewUNKNOWNPermissionsPanel()
+    {
+        return classifyUnknownPermissionsPanel1;
+    }
+    
     public void loadUserForEditing(String username, String password, int role, String quota) {
         editUserPanel1.setUser(username, password, role, quota);
     }

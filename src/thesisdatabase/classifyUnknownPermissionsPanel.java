@@ -5,6 +5,8 @@
  */
 package thesisdatabase;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import javax.swing.ButtonGroup;
 
 /**
@@ -31,13 +33,13 @@ String permission ="";
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        permissions = new javax.swing.JTable();
+        perm = new javax.swing.JTable();
         back = new javax.swing.JButton();
         updateButton = new javax.swing.JButton();
         secure = new javax.swing.JRadioButton();
         insecure = new javax.swing.JRadioButton();
 
-        permissions.setModel(new javax.swing.table.DefaultTableModel(
+        perm.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null},
                 {null},
@@ -48,12 +50,12 @@ String permission ="";
                 "Permission"
             }
         ));
-        permissions.addMouseListener(new java.awt.event.MouseAdapter() {
+        perm.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                permissionsMouseClicked(evt);
+                permMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(permissions);
+        jScrollPane1.setViewportView(perm);
 
         back.setText("Back");
         back.addActionListener(new java.awt.event.ActionListener() {
@@ -129,12 +131,22 @@ String permission ="";
 }
     
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
-       boolean isSecure;
+       boolean isSecure =false;
         if (insecure.isSelected())
             isSecure=false;
         else if (secure.isSelected())
             isSecure=true;
         
+        try
+        {
+          ThesisDatabase.updatePermission(isSecure, permission);
+         // perm;
+          QueriesPanel.populateUnknownTable();
+
+        }
+        catch (SQLException e ) {
+        e.printStackTrace();
+       }
         
     }//GEN-LAST:event_updateButtonActionPerformed
 
@@ -150,26 +162,26 @@ String permission ="";
                 ThesisDatabase.window.selectPanel(2);
     }//GEN-LAST:event_backActionPerformed
 
-    private void permissionsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_permissionsMouseClicked
+    private void permMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_permMouseClicked
 try
 {
-    int row = permissions.getSelectedRow();
-    int column =permissions.getSelectedColumn();
-    permission = (String)permissions.getValueAt(row, column);
+    int row = perm.getSelectedRow();
+    int column =perm.getSelectedColumn();
+    permission = (String)perm.getValueAt(row, column);
 }
 catch(Exception e)
 {
     
 }
 // TODO add your handling code here:
-    }//GEN-LAST:event_permissionsMouseClicked
+    }//GEN-LAST:event_permMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton back;
     private javax.swing.JRadioButton insecure;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable permissions;
+    public javax.swing.JTable perm;
     private javax.swing.JRadioButton secure;
     private javax.swing.JButton updateButton;
     // End of variables declaration//GEN-END:variables

@@ -86,7 +86,7 @@ public class QueriesPanel extends javax.swing.JPanel {
             }
         });
 
-        viewPermissionsButton.setText("View Permissions");
+        viewPermissionsButton.setText("View Classified Permissions");
         viewPermissionsButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 viewPermissionsButtonActionPerformed(evt);
@@ -235,15 +235,15 @@ public class QueriesPanel extends javax.swing.JPanel {
        ArrayList<ResultSet> app = ThesisDatabase.getAppsbyStatus();
        for(int i = 0; i<4; i++)
        {
+         int row = 0;
          while (app.get(i).next())
          {
-             int row = 0;
               javax.swing.JTable temp = new javax.swing.JTable();
               temp = ThesisDatabase.window.getPrivilegesPanel().getTable(i);
-                  temp.setValueAt(app.get(i).getInt("appId"), 0, 0);
-                  temp.setValueAt(app.get(i).getString("appName"), 0,1);
-                  temp.setValueAt(app.get(i).getString("versioncode"), 0,2);
-                  temp.setValueAt(app.get(i).getString("os"), 0,3);
+                  temp.setValueAt(app.get(i).getInt("appId"), row, 0);
+                  temp.setValueAt(app.get(i).getString("appName"), row,1);
+                  temp.setValueAt(app.get(i).getString("versioncode"), row,2);
+                  temp.setValueAt(app.get(i).getString("os"), row,3);
 
                   DefaultTableModel model = (DefaultTableModel) temp.getModel();
                   int h= temp.getRowCount();    
@@ -252,6 +252,7 @@ public class QueriesPanel extends javax.swing.JPanel {
                           h++;
                           model.setRowCount(h);
                         }
+                        row++;
                   }  
        }
         
@@ -313,34 +314,9 @@ try
                }//GEN-LAST:event_viewPermissionsButtonActionPerformed
 
     private void unknownPermissionsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_unknownPermissionsButtonActionPerformed
-            try {
-                  ResultSet permissions = ThesisDatabase.getAllPermissions();
-       
-                  ViewPermissionsPanel temp = ThesisDatabase.window.getViewPermissionsPanel();
-                  DefaultTableModel model = (DefaultTableModel) temp.jTable1.getModel();
-                  int h= temp.jTable1.getRowCount();
-                  int row = 0;
-                  while(permissions.next())
-                  {
-                     temp.jTable1.setValueAt(permissions.getString("permissionname"), row, 0);
-                     temp.jTable1.setValueAt(permissions.getBoolean("potentiallyinsecure"), row,1);
-                     row++;
-                        if(row>= h)
-                        {
-                          h++;
-                          model.setRowCount(h);
-                        }
-                  }
-                  
+           
+             populateUnknownTable();
              ThesisDatabase.window.selectPanel(7);
-          }
-     
-      catch (SQLException ex) {
-            Logger.getLogger(QueriesPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    
-                      ThesisDatabase.window.selectPanel(7);
-
     }//GEN-LAST:event_unknownPermissionsButtonActionPerformed
 
     private void editUserButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editUserButtonActionPerformed
@@ -370,6 +346,36 @@ try
         //addAppButton.setVisible(false);
         //addAppButton.setVisible(false);
 
+    }
+    
+    public static void populateUnknownTable()
+    {
+     try{
+        ResultSet permissions = ThesisDatabase.getUnknownPermissions();
+        int row = 0;
+        javax.swing.JTable temp = new javax.swing.JTable();
+        temp = ThesisDatabase.window.getViewUNKNOWNPermissionsPanel().perm;
+        DefaultTableModel model = (DefaultTableModel) temp.getModel();
+        model.setRowCount(row);
+
+         while (permissions.next())
+         {
+              
+              if(row>= temp.getRowCount())
+              {
+             model.setRowCount(row+1);
+             }
+            temp.setValueAt(permissions.getString("getunknownpermissions"),row , 0);
+            row++;
+
+              
+                 
+         }  
+       }
+       catch (SQLException ex) 
+       {
+            Logger.getLogger(QueriesPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
