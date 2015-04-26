@@ -7,7 +7,8 @@ CREATE TABLE users (
     username character varying(255) unique,
     password character varying(255),
     role integer,
-    quota integer
+    quota integer,
+    appssubmitted integer
 );
 
 
@@ -112,7 +113,7 @@ begin
 		  from		apphaspermission
 		  where		appid=aid) loop
 
-		privilegeStatus = permissionStatus | checkAppAndPermissionStatus(r.appid, r.permissionname);
+		privilegeStatus = privilegeStatus | checkAppAndPermissionStatus(r.appid, r.permissionname);
 		
 	end loop;
 
@@ -174,7 +175,7 @@ BEGIN
 end;
 $$;
 
-CREATE OR REPLACE FUNCTION addframework()
+CREATE FUNCTION addframework()
   RETURNS trigger AS
 $BODY$
 DECLARE 
@@ -189,10 +190,15 @@ BEGIN
 	return new;
 end;
 $BODY$
-  LANGUAGE plpgsql VOLATILE
-  COST 100;
-ALTER FUNCTION addframework()
-  OWNER TO postgres;
+  LANGUAGE plpgsql;
+
+create function incrementUserApps() returns trigger as $$
+begin
+	update users
+	set appssubmitted=appssubmitted+1
+	where users.userid=new.addedby;
+	return new;
+end; $$ language plpgsql;
 
 
 create trigger ensurepermissionexists before insert on apphaspermission
@@ -203,6 +209,9 @@ create trigger ensureFrameworkexists before insert on apphasframework
 	for each row
 		execute procedure addframework();
 
+create trigger appadded after insert on application
+	for each row
+		execute procedure incrementUserApps();
 
 /*
 CREATE FUNCTION addpermission(appd integer, pname text, rted boolean, rred boolean) RETURNS void
@@ -316,7 +325,7 @@ declare
 	userId integer;
 begin
 	--select createuserid() into userId;
-	insert into users values(default,name,password,role, quota);
+	insert into users values(default,name,password,role, quota, 0);
 	return userId;
 end $$;
 

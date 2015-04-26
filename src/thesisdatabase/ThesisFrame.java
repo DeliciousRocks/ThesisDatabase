@@ -28,6 +28,7 @@ public class ThesisFrame extends java.awt.Frame {
         panels.add(viewPermissionsPanel1);
         panels.add(classifyUnknownPermissionsPanel1);
         panels.add(editUserPanel1);
+        panels.add(userActivityPanel1);
         //panels.add(addUserPanel1);
     }
     
@@ -75,6 +76,7 @@ public class ThesisFrame extends java.awt.Frame {
         viewPermissionsPanel1 = new thesisdatabase.ViewPermissionsPanel();
         classifyUnknownPermissionsPanel1 = new thesisdatabase.classifyUnknownPermissionsPanel();
         editUserPanel1 = new thesisdatabase.EditUserPanel();
+        userActivityPanel1 = new thesisdatabase.UserActivityPanel();
 
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -91,6 +93,7 @@ public class ThesisFrame extends java.awt.Frame {
         add(viewPermissionsPanel1, "card8");
         add(classifyUnknownPermissionsPanel1, "card9");
         add(editUserPanel1, "card10");
+        add(userActivityPanel1, "card11");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -132,6 +135,7 @@ public class ThesisFrame extends java.awt.Frame {
     private thesisdatabase.EditUserPanel editUserPanel1;
     private thesisdatabase.LoginPanel loginPanel2;
     private thesisdatabase.QueriesPanel queriesPanel1;
+    private thesisdatabase.UserActivityPanel userActivityPanel1;
     private thesisdatabase.ViewPermissionsPanel viewPermissionsPanel1;
     // End of variables declaration//GEN-END:variables
 }

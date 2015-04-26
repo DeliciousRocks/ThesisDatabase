@@ -1,13 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
-  <NonVisualComponents>
-    <Component class="javax.swing.JButton" name="jButton1">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="jButton1"/>
-      </Properties>
-    </Component>
-  </NonVisualComponents>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
@@ -36,7 +29,8 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="addUserButton" min="-2" max="-2" attributes="0"/>
                           <Component id="addAppButton" min="-2" max="-2" attributes="0"/>
-                          <Component id="editUserButton" min="-2" max="-2" attributes="0"/>
+                          <Component id="userActivityButton" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="editUserButton" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="112" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
@@ -47,7 +41,7 @@
                           </Group>
                           <Component id="appPrivilegeButton" min="-2" max="-2" attributes="0"/>
                           <Component id="viewPermissionsButton" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="jButton2" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="unknownPermissionsButton" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -79,8 +73,10 @@
                   <Component id="viewPermissionsButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="editUserButton" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
-              <Component id="jButton2" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="userActivityButton" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="75" max="32767" attributes="0"/>
+              <Component id="unknownPermissionsButton" min="-2" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -141,12 +137,12 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="viewPermissionsButtonActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton2">
+    <Component class="javax.swing.JButton" name="unknownPermissionsButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="Review Unknown Permissions"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton2ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="unknownPermissionsButtonActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="editUserButton">
@@ -155,6 +151,15 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="editUserButtonActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="userActivityButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Review User Activity"/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="userActivityButtonActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

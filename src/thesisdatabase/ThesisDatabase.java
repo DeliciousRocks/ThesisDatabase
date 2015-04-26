@@ -6,16 +6,16 @@
 package thesisdatabase;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Set;
+import java.util.Calendar;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -488,14 +488,67 @@ public static Application readJSON(String json) throws org.json.JSONException
         return true;
     }
     
+    public static ResultSet getTopUsersForWeek(int numberOfUsers, int year, int month) {
+        Timestamp startTimestamp = new Timestamp(0);
+        Timestamp endTimestamp = new Timestamp(0);
+        getStartAndEndTimestampFromYearAndMonth(year, month, startTimestamp, endTimestamp);
+        
+        String topUsersQuery =
+                "select userid as \"User ID\", username as \"User Name\", quota as Quota, count(*) as \"Apps Submitted\"" +
+                "from users, application " +
+                "where userid=addedby " +
+                //"and addedby > ? " +
+                //"and addedby < ? " +
+                "group by userid " +
+                "order by count(*) " +
+                "limit ?";
+        try {
+            PreparedStatement stmt = conn.prepareStatement(topUsersQuery);
+            //stmt.setTimestamp(1, startTimestamp);
+            //stmt.setTimestamp(2, endTimestamp);
+            stmt.setInt(1, numberOfUsers);
+            ResultSet rs = stmt.executeQuery();
+            return rs;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
+    public static ResultSet getUsersUnderQuotaForWeek(int year, int month) {
+        Timestamp startTimestamp = new Timestamp(0);
+        Timestamp endTimestamp = new Timestamp(0);
+        getStartAndEndTimestampFromYearAndMonth(year, month, startTimestamp, endTimestamp);
+        
+        String underQuotaQuery =
+                "select userid as \"User ID\", username as \"User Name\", quota as Quota, count(*) as \"Apps Submitted\"" +
+                "from users, application " +
+                "where userid=addedby " +
+                //"and addedby > ? " +
+                //"and addedby < ? " +
+                "group by userid " +
+                "having count(*)<quota " +
+                "order by userid";
+        try {
+            PreparedStatement stmt = conn.prepareStatement(underQuotaQuery);
+            //stmt.setTimestamp(1, startTimestamp);
+            //stmt.setTimestamp(2, endTimestamp);
+            ResultSet rs = stmt.executeQuery();
+            return rs;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
     public static ResultSet getAllPermissions()
       throws SQLException {
   
               
       try {
           PreparedStatement stmt = null;
-          String query = "Select * from permission"
-                  + "where permissionname not in"
+          String query = "Select * from permission "
+                  + "where permissionname not in "
                   + "(select getunknownpermissions()) order by permissionname;";
           stmt = conn.prepareStatement(query);
           ResultSet rs = stmt.executeQuery();
@@ -506,5 +559,13 @@ public static Application readJSON(String json) throws org.json.JSONException
       }
       return null;
  }   
+    
+    private static void getStartAndEndTimestampFromYearAndMonth(int year, int month, Timestamp start, Timestamp end) {
+        Calendar cal = Calendar.getInstance();
+        cal.set(year, month, 0);
+        start.setTime(cal.getTimeInMillis());
+        cal.add(Calendar.MONTH, 1);
+        end.setTime(cal.getTimeInMillis());
+    }
 }
 

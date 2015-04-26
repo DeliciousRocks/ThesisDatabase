@@ -36,7 +36,6 @@ public class QueriesPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
         welcomeLabel = new javax.swing.JLabel();
         userNameLabel = new javax.swing.JLabel();
         addAppButton = new javax.swing.JButton();
@@ -45,10 +44,9 @@ public class QueriesPanel extends javax.swing.JPanel {
         appPrivilegeButton = new javax.swing.JButton();
         addUserButton = new javax.swing.JButton();
         viewPermissionsButton = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        unknownPermissionsButton = new javax.swing.JButton();
         editUserButton = new javax.swing.JButton();
-
-        jButton1.setText("jButton1");
+        userActivityButton = new javax.swing.JButton();
 
         welcomeLabel.setText("Welcome,");
 
@@ -95,10 +93,10 @@ public class QueriesPanel extends javax.swing.JPanel {
             }
         });
 
-        jButton2.setText("Review Unknown Permissions");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        unknownPermissionsButton.setText("Review Unknown Permissions");
+        unknownPermissionsButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                unknownPermissionsButtonActionPerformed(evt);
             }
         });
 
@@ -106,6 +104,14 @@ public class QueriesPanel extends javax.swing.JPanel {
         editUserButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 editUserButtonActionPerformed(evt);
+            }
+        });
+
+        userActivityButton.setText("Review User Activity");
+        userActivityButton.setToolTipText("");
+        userActivityButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                userActivityButtonActionPerformed(evt);
             }
         });
 
@@ -125,6 +131,7 @@ public class QueriesPanel extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(addUserButton)
                             .addComponent(addAppButton)
+                            .addComponent(userActivityButton)
                             .addComponent(editUserButton))
                         .addGap(112, 112, 112)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -134,7 +141,7 @@ public class QueriesPanel extends javax.swing.JPanel {
                                 .addComponent(appId, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(appPrivilegeButton)
                             .addComponent(viewPermissionsButton)
-                            .addComponent(jButton2))))
+                            .addComponent(unknownPermissionsButton))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -154,12 +161,13 @@ public class QueriesPanel extends javax.swing.JPanel {
                     .addComponent(viewAppDataButton)
                     .addComponent(appId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(viewPermissionsButton)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(viewPermissionsButton)
                     .addComponent(editUserButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(userActivityButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
+                .addComponent(unknownPermissionsButton))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -303,7 +311,7 @@ try
         }
                }//GEN-LAST:event_viewPermissionsButtonActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void unknownPermissionsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_unknownPermissionsButtonActionPerformed
             try {
                   ResultSet permissions = ThesisDatabase.getAllPermissions();
        
@@ -332,20 +340,24 @@ try
     
                       ThesisDatabase.window.selectPanel(7);
 
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_unknownPermissionsButtonActionPerformed
 
     private void editUserButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editUserButtonActionPerformed
-        String username = JOptionPane.showInputDialog("What is the username of the user you would like to edit?");
+        String username = JOptionPane.showInputDialog("What is the user name of the user you would like to edit?");
         ThesisDatabase.window.setName(username);
         ThesisDatabase.loadUserForEditing(username);
         ThesisDatabase.window.selectPanel(8);
     }//GEN-LAST:event_editUserButtonActionPerformed
 
+    private void userActivityButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userActivityButtonActionPerformed
+        ThesisDatabase.window.selectPanel(9);
+    }//GEN-LAST:event_userActivityButtonActionPerformed
+
     public void guestMode()
     {
         userMode();
         addAppButton.setVisible(false);
-        jButton2.setVisible(false);
+        unknownPermissionsButton.setVisible(false);
         //addAppButton.setVisible(false);
         //addAppButton.setVisible(false);
 
@@ -365,8 +377,8 @@ try
     private javax.swing.JTextField appId;
     private javax.swing.JButton appPrivilegeButton;
     private javax.swing.JButton editUserButton;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton unknownPermissionsButton;
+    private javax.swing.JButton userActivityButton;
     private javax.swing.JLabel userNameLabel;
     private javax.swing.JButton viewAppDataButton;
     private javax.swing.JButton viewPermissionsButton;
