@@ -289,6 +289,71 @@ END;
 $$;
 
 
+CREATE OR REPLACE FUNCTION getuserrole(n character varying)
+  RETURNS integer AS
+$BODY$
+DECLARE 
+	r integer;
+BEGIN
+	Select role into r from users where userName = n;
+	return r;
+	
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION getuserrole(character varying)
+  OWNER TO postgres;
+
+CREATE OR REPLACE FUNCTION getuserrole(name text)
+  RETURNS integer AS
+$BODY$
+DECLARE 
+	urole integer;
+	BEGIN
+		select role into urole
+		from users
+		where username = name;
+		
+		return urole;
+			
+	end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION getuserrole(text)
+  OWNER TO postgres;
+
+
+CREATE OR REPLACE FUNCTION getusername(x integer)
+  RETURNS text AS
+$BODY$
+DECLARE
+y text;
+BEGIN
+	Select username into y from users where userid =x;
+	return y;
+	
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION getusername(integer)
+  OWNER TO postgres;
+
+  CREATE OR REPLACE FUNCTION getunknownpermissions()
+  RETURNS SETOF text AS
+$BODY$
+ 
+	 Select permissionname from permission where potentiallyinsecure is null;
+
+$BODY$
+  LANGUAGE sql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION getunknownpermissions()
+  OWNER TO postgres;
+
 
 
 CREATE FUNCTION createappid() RETURNS integer

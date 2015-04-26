@@ -64,8 +64,8 @@ public class ThesisDatabase
      {
      e1.printStackTrace();
      }
-     //String url = "jdbc:postgresql://localhost:5432/Thesis";
-     String url = "jdbc:postgresql://localhost:5432/Static_Analysis";
+     String url = "jdbc:postgresql://localhost:5432/Thesis";
+     //String url = "jdbc:postgresql://localhost:5432/Static_Analysis";
      String user = "postgres";
      String password = "A1B2C3";
 

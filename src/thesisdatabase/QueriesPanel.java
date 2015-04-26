@@ -209,6 +209,7 @@ public class QueriesPanel extends javax.swing.JPanel {
                   }
                   
                   ThesisDatabase.window.selectPanel(3);
+                  appId.setText("");
           }
      }
      catch(NumberFormatException e)
