@@ -494,19 +494,19 @@ public static Application readJSON(String json) throws org.json.JSONException
         getStartAndEndTimestampFromYearAndMonth(year, month, startTimestamp, endTimestamp);
         
         String topUsersQuery =
-                "select userid as \"User ID\", username as \"User Name\", quota as Quota, count(*) as \"Apps Submitted\"" +
+                "select userid as \"User ID\", username as \"User Name\", quota as \"Quota\", count(*) as \"Apps Submitted\"" +
                 "from users, application " +
                 "where userid=addedby " +
-                //"and addedby > ? " +
-                //"and addedby < ? " +
+                "and dateadded > ? " +
+                "and dateadded < ? " +
                 "group by userid " +
                 "order by count(*) " +
                 "limit ?";
         try {
             PreparedStatement stmt = conn.prepareStatement(topUsersQuery);
-            //stmt.setTimestamp(1, startTimestamp);
-            //stmt.setTimestamp(2, endTimestamp);
-            stmt.setInt(1, numberOfUsers);
+            stmt.setTimestamp(1, startTimestamp);
+            stmt.setTimestamp(2, endTimestamp);
+            stmt.setInt(3, numberOfUsers);
             ResultSet rs = stmt.executeQuery();
             return rs;
         } catch (SQLException e) {
@@ -521,18 +521,18 @@ public static Application readJSON(String json) throws org.json.JSONException
         getStartAndEndTimestampFromYearAndMonth(year, month, startTimestamp, endTimestamp);
         
         String underQuotaQuery =
-                "select userid as \"User ID\", username as \"User Name\", quota as Quota, count(*) as \"Apps Submitted\"" +
+                "select userid as \"User ID\", username as \"User Name\", quota as \"Quota\", count(*) as \"Apps Submitted\"" +
                 "from users, application " +
                 "where userid=addedby " +
-                //"and addedby > ? " +
-                //"and addedby < ? " +
+                "and dateadded > ? " +
+                "and dateadded < ? " +
                 "group by userid " +
                 "having count(*)<quota " +
                 "order by userid";
         try {
             PreparedStatement stmt = conn.prepareStatement(underQuotaQuery);
-            //stmt.setTimestamp(1, startTimestamp);
-            //stmt.setTimestamp(2, endTimestamp);
+            stmt.setTimestamp(1, startTimestamp);
+            stmt.setTimestamp(2, endTimestamp);
             ResultSet rs = stmt.executeQuery();
             return rs;
         } catch (SQLException e) {
