@@ -216,7 +216,7 @@ private void clearFields()
 {
     appName.setText("");
     developerName.setText("");
-    GenreLabel.setText("");
+    genreName.setText("");
     JSON.setText("");
 }
 

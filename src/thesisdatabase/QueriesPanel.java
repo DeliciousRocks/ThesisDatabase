@@ -293,9 +293,12 @@ try
 
     private void editUserButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editUserButtonActionPerformed
         String username = JOptionPane.showInputDialog("What is the user name of the user you would like to edit?");
-        ThesisDatabase.window.setName(username);
-        ThesisDatabase.loadUserForEditing(username);
-        ThesisDatabase.window.selectPanel(8);
+        if (!ThesisDatabase.loadUserForEditing(username))
+            JOptionPane.showMessageDialog(this, "The user you are looking for does not seem to exist.\n"
+                    + "Please check to make sure you typed the name correctly.", "User Does Not Exist",
+                    JOptionPane.ERROR_MESSAGE);
+        else
+            ThesisDatabase.window.selectPanel(8);
     }//GEN-LAST:event_editUserButtonActionPerformed
 
     private void userActivityButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userActivityButtonActionPerformed
@@ -369,6 +372,7 @@ catch (SQLException ex)
     public void userMode()
     {
         addUserButton.setVisible(false);
+        editUserButton.setVisible(false);
         //addAppButton.setVisible(false);
         //addAppButton.setVisible(false);
 

@@ -48,7 +48,6 @@ public class ThesisFrame extends java.awt.Frame {
     public void setName(String name)
     {
         queriesPanel1.setName(name);
-        editUserPanel1.setName(name);
     }
     
     public AppData getAndroidPanel()
@@ -151,6 +150,7 @@ public class ThesisFrame extends java.awt.Frame {
     }
     
     public void loadUserForEditing(String username, String password, int role, String quota) {
+        editUserPanel1.setName(username);
         editUserPanel1.setUser(username, password, role, quota);
     }
 

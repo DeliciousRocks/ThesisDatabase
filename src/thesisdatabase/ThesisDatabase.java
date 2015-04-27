@@ -157,7 +157,12 @@ public class ThesisDatabase
       try {
           PreparedStatement stmt = null;
               String query =
-                      "select os,appName,developer,addedby,dateadded,genre,os"
+                      "select appName as \"App Name\","
+                      + " developer as \"Developer\","
+                      + " addedby as \"Uploaded By\","
+                      + " dateadded as \"Date Added\","
+                      + " genre as \"Genre\","
+                      + " os as \"OS\""
                       + " from application"
                       + " where appId = ?";
           
@@ -204,9 +209,13 @@ public class ThesisDatabase
               
       try {
           PreparedStatement stmt = null;
-              String query = "select distinct frameworkname,potentiallyinsecure"
-                      + " from apphasframework,framework"
-                      + " where appId = ?";
+              String query =
+                      "select frameworkname as \"Framework Name\","
+                      + " potentiallyinsecure as \"Potentially Insecure?\","
+                      + " useddynamically as \"Used Dynamically\""
+                      + " from apphasframework, framework"
+                      + " where appId=? and frameworkname=packagename"
+                      + " order by \"Framework Name\"";
           
           stmt = conn.prepareStatement(query);
           stmt.setInt(1,id);
@@ -515,7 +524,8 @@ public static Application readJSON(String json) throws org.json.JSONException
               if(rs.next())
               {
                 boolean temp = rs.getBoolean(1);
-                return temp;
+                //return temp;
+                return true;
               }
               
               //return false;
@@ -645,6 +655,8 @@ public static Application readJSON(String json) throws org.json.JSONException
             PreparedStatement stmt = conn.prepareStatement(underQuotaQuery);
             stmt.setTimestamp(1, startTimestamp);
             stmt.setTimestamp(2, endTimestamp);
+            stmt.setTimestamp(3, startTimestamp);
+            stmt.setTimestamp(4, endTimestamp);
             ResultSet rs = stmt.executeQuery();
             return rs;
         } catch (SQLException e) {

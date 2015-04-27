@@ -170,8 +170,8 @@ public class AppData extends javax.swing.JPanel {
     public void loadApp(int id, ResultSet appRs) throws SQLException {
         appId = id;
         appTable.setModel(DbUtils.resultSetToTableModel(appRs));
-        appName = (String)appTable.getValueAt(0, 1);
-        os = (String)appTable.getValueAt(0, 6);
+        appName = (String)appTable.getValueAt(0, 0);
+        os = (String)appTable.getValueAt(0, 5);
         loadPermissionsOrFrameworks();
     }
 
