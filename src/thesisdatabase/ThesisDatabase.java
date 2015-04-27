@@ -415,7 +415,7 @@ public static ArrayList<ResultSet> getAppsbyStatus()
     ArrayList<ResultSet> results = new ArrayList();
         try {
             PreparedStatement stmt = null;
-            String query = "select  * from getAppsWithPrivilegeStatus(?);";
+            String query = "select appid as \"App ID\", appname as \"App Name\", versioncode as \"Version Code\", os as \"OS\" from getAppsWithPrivilegeStatus(?);";
             for (int i = 0; i<4; i++)
             {
             stmt = conn.prepareStatement(query);

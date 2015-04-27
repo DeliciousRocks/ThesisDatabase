@@ -97,7 +97,6 @@ public class AppPrivilegesPanel extends javax.swing.JPanel {
         jPanel3 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         underAndOverTable = new javax.swing.JTable();
-        jButton3 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         correctlyPrivilegedTable = new javax.swing.JTable();
@@ -181,14 +180,6 @@ public class AppPrivilegesPanel extends javax.swing.JPanel {
         jScrollPane3.setViewportView(underAndOverTable);
 
         jPanel3.add(jScrollPane3);
-
-        jButton3.setText("Back");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-        jPanel3.add(jButton3);
 
         jTabbedPane1.addTab("Both Over and Under Privileged", jPanel3);
 
@@ -288,17 +279,11 @@ public class AppPrivilegesPanel extends javax.swing.JPanel {
 ThesisDatabase.window.selectPanel(2);        // TODO add your handling code here:
     }//GEN-LAST:event_backButtonActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-ThesisDatabase.window.selectPanel(2);        // TODO add your handling code here:
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
-
     
     private List<JTable> tables;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backButton;
     private javax.swing.JTable correctlyPrivilegedTable;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;

@@ -7,9 +7,9 @@ CREATE TABLE users (
     username character varying(255) unique,
     password character varying(255),
     role integer,
-    quota integer
+    quota integer,
+    appssubmitted integer
 );
-
 
 
 CREATE TABLE application (
@@ -29,7 +29,6 @@ CREATE TABLE application (
 
     constraint addedby_fkey FOREIGN KEY (addedby) REFERENCES users(userid)
 );
-
 
 
 CREATE TABLE framework (
@@ -54,6 +53,7 @@ CREATE TABLE apphaspermission (
     permissionname character varying(255),
     requested boolean,
     required boolean,
+    useddynamically boolean
     primary key (appid, permissionname),
     constraint androidid_fkey foreign key (appid) references application(appid),
     constraint permissionname_fkey foreign key (permissionname) references permission(permissionname)
@@ -62,7 +62,8 @@ CREATE TABLE apphaspermission (
 
 CREATE TABLE apphasframework (
     appid integer,
-    packagename character varying(255),
+    frameworkname character varying(255),
+    useddynamically boolean
     primary key (appid, packagename),
     constraint androidid_fkey FOREIGN KEY (appid) REFERENCES application(appid),
     constraint packagename_fkey FOREIGN KEY (packagename) REFERENCES framework(frameworkname)
@@ -114,13 +115,21 @@ begin
 		  from		apphaspermission
 		  where		appid=aid) loop
 
-		privilegeStatus = permissionStatus | checkAppAndPermissionStatus(r.appid, r.permissionname);
+		privilegeStatus = privilegeStatus | checkAppAndPermissionStatus(r.appid, r.permissionname);
 		
 	end loop;
 
 	-- good 0, under 1, over 2, both 3
 	return privilegeStatus;
 end $$;
+
+create function getAppsWithPrivilegeStatus(status integer)
+	returns setof application
+as $$
+	select	*
+	from	application
+	where	(select * from checkAppPrivilegeStatus(appid))=status;
+$$ language sql;
 
 
 create function addnewapp(filename text, packagename text, minimumversion double precision, targetversion double precision, versioncode text, versionname text, os text, username text, appname text, developer text, genre text) RETURNS integer
@@ -138,6 +147,7 @@ BEGIN
 	return appId;
 end;
 $$;
+
 
 
 CREATE FUNCTION addpackage(appid integer, packagename text) RETURNS void
@@ -167,7 +177,6 @@ BEGIN
 end;
 $$;
 
-
 CREATE FUNCTION addframework()
   RETURNS trigger AS
 $BODY$
@@ -185,6 +194,14 @@ end;
 $BODY$
   LANGUAGE plpgsql;
 
+create function incrementUserApps() returns trigger as $$
+begin
+	update users
+	set appssubmitted=appssubmitted+1
+	where users.userid=new.addedby;
+	return new;
+end; $$ language plpgsql;
+
 
 create trigger ensurepermissionexists before insert on apphaspermission
 	for each row
@@ -194,6 +211,9 @@ create trigger ensureFrameworkexists before insert on apphasframework
 	for each row
 		execute procedure addframework();
 
+create trigger appadded after insert on application
+	for each row
+		execute procedure incrementUserApps();
 
 /*
 CREATE FUNCTION addpermission(appd integer, pname text, rted boolean, rred boolean) RETURNS void
@@ -214,6 +234,21 @@ $$;
 */
 
 
+CREATE FUNCTION getunknownframeworks()
+  RETURNS SETOF text AS
+$BODY$
+ 
+	 Select frameworkname from framework where potentiallyinsecure is null;
+
+$BODY$
+  LANGUAGE sql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION getunknownpermissions()
+  OWNER TO postgres;
+
+
+
 CREATE FUNCTION getuserrole(name text)
   RETURNS integer AS
 $BODY$
@@ -229,6 +264,7 @@ DECLARE
 	end;
 $BODY$
   LANGUAGE plpgsql;
+
 
 CREATE FUNCTION isRepeat(
     fileN text,
@@ -269,6 +305,49 @@ END;
 $$;
 
 
+CREATE FUNCTION getuserrole(n character varying)
+  RETURNS integer AS
+$BODY$
+DECLARE 
+	r integer;
+BEGIN
+	Select role into r from users where userName = n;
+	return r;
+	
+end;
+$BODY$
+  LANGUAGE plpgsql;
+
+
+CREATE FUNCTION getusername(x integer)
+  RETURNS text AS
+$BODY$
+DECLARE
+y text;
+BEGIN
+	Select username into y from users where userid =x;
+	return y;
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION getusername(integer)
+  OWNER TO postgres;
+
+
+  CREATE OR REPLACE FUNCTION getunknownpermissions()
+  RETURNS SETOF text AS
+$BODY$
+ 
+	 Select permissionname from permission where potentiallyinsecure is null;
+
+$BODY$
+  LANGUAGE sql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION getunknownpermissions()
+  OWNER TO postgres;
+
 
 
 CREATE FUNCTION createappid() RETURNS integer
@@ -304,8 +383,8 @@ create function createuser(
 declare
 	userId integer;
 begin
-	select createuserid() into userId;
-	insert into users values(default,name,password,role,quota);
+	--select createuserid() into userId;
+	insert into users values(default,name,password,role, quota, 0);
 	return userId;
 end $$;
 
@@ -333,11 +412,6 @@ end
 $$;
 
 
-
---
--- TOC entry 195 (class 1255 OID 51208)
--- Name: getuserid(text); Type: FUNCTION; Schema: public; Owner: postgres
---
 
 CREATE FUNCTION getuserid(name text) RETURNS integer
     LANGUAGE plpgsql
