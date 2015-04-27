@@ -383,6 +383,7 @@ try
     private void userActivityButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userActivityButtonActionPerformed
         ThesisDatabase.window.selectPanel(9);
     }//GEN-LAST:event_userActivityButtonActionPerformed
+<<<<<<< HEAD
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
@@ -429,6 +430,8 @@ catch (SQLException ex)
                
            // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
+=======
+>>>>>>> origin/master
 
     public void guestMode()
     {
@@ -477,6 +480,7 @@ catch (SQLException ex)
             Logger.getLogger(QueriesPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+<<<<<<< HEAD
     
     public static void populateUnknownTable2()
     {
@@ -508,6 +512,8 @@ catch (SQLException ex)
             Logger.getLogger(QueriesPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+=======
+>>>>>>> origin/master
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addAppButton;

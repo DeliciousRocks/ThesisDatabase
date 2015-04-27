@@ -326,6 +326,7 @@ try{
        }
    }
 
+<<<<<<< HEAD
 public static void updateFramework(boolean x, String y)
         throws SQLException {
 try{
@@ -345,6 +346,8 @@ try{
         e.printStackTrace();
        }
    }
+=======
+>>>>>>> origin/master
 
 public static void addPackage(int id, String x)
         throws SQLException {
@@ -621,6 +624,7 @@ public static Application readJSON(String json) throws org.json.JSONException
       return null;
  }   
     
+<<<<<<< HEAD
     public static ResultSet getAllFrameworks()
       throws SQLException {
               
@@ -639,6 +643,8 @@ public static Application readJSON(String json) throws org.json.JSONException
       return null;
  }   
     
+=======
+>>>>>>> origin/master
        public static ResultSet getUnknownPermissions()
       throws SQLException {
               
@@ -654,6 +660,7 @@ public static Application readJSON(String json) throws org.json.JSONException
       }
       return null;
  }   
+<<<<<<< HEAD
        
        public static ResultSet getUnknownFrameworks()
       throws SQLException {
@@ -670,6 +677,8 @@ public static Application readJSON(String json) throws org.json.JSONException
       }
       return null;
  }   
+=======
+>>>>>>> origin/master
     
     
     private static void getStartAndEndTimestampFromYearAndMonth(int year, int month, Timestamp start, Timestamp end) {

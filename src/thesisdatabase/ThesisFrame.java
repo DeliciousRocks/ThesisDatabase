@@ -127,6 +127,7 @@ public class ThesisFrame extends java.awt.Frame {
         return viewPermissionsPanel1;
     }
     
+<<<<<<< HEAD
     
     public ViewFrameworksPanel getViewFrameworksPanel()
     {
@@ -134,16 +135,21 @@ public class ThesisFrame extends java.awt.Frame {
     }
     
     
+=======
+>>>>>>> origin/master
      public classifyUnknownPermissionsPanel getViewUNKNOWNPermissionsPanel()
     {
         return classifyUnknownPermissionsPanel1;
     }
+<<<<<<< HEAD
      
       public classifyUnknownFrameworksPanel getViewUNKNOWNFrameworksPanel()
     {
         return classifyUnknownFrameworksPanel1;
     }
      
+=======
+>>>>>>> origin/master
     
     public void loadUserForEditing(String username, String password, int role, String quota) {
         editUserPanel1.setUser(username, password, role, quota);
