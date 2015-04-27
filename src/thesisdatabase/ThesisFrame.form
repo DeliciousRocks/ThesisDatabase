@@ -93,5 +93,19 @@
         </Constraint>
       </Constraints>
     </Component>
+    <Component class="thesisdatabase.classifyUnknownFrameworksPanel" name="classifyUnknownFrameworksPanel1">
+      <Constraints>
+        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignCardLayout" value="org.netbeans.modules.form.compat2.layouts.DesignCardLayout$CardConstraintsDescription">
+          <CardConstraints cardName="card12"/>
+        </Constraint>
+      </Constraints>
+    </Component>
+    <Component class="thesisdatabase.ViewFrameworksPanel" name="viewFrameworksPanel1">
+      <Constraints>
+        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignCardLayout" value="org.netbeans.modules.form.compat2.layouts.DesignCardLayout$CardConstraintsDescription">
+          <CardConstraints cardName="card13"/>
+        </Constraint>
+      </Constraints>
+    </Component>
   </SubComponents>
 </Form>

@@ -190,6 +190,27 @@ public class ThesisDatabase
        e.printStackTrace();
       }
       return null;
+ }
+  
+  public static ResultSet getFrameworks(int id)
+      throws SQLException {
+  
+              
+      try {
+          PreparedStatement stmt = null;
+              String query = "select distinct frameworkname,potentiallyinsecure"
+                      + " from apphasframework,framework"
+                      + " where appId = ?";
+          
+          stmt = conn.prepareStatement(query);
+          stmt.setInt(1,id);
+          ResultSet rs = stmt.executeQuery();
+          return rs;
+      } catch (SQLException e ) {
+          //System.out.println(e.getMessage());
+       e.printStackTrace();
+      }
+      return null;
  }   
 //Adds app not permission. Yet
 public static int addNewApp(ArrayList<String> data)
@@ -278,6 +299,47 @@ public static void addpermission(int id, Permission x)
               addPermission.executeUpdate();
             
               
+       } 
+       catch (SQLException e ) {
+        e.printStackTrace();
+       }
+   }
+
+
+public static void updatePermission(boolean x, String y)
+        throws SQLException {
+try{
+        PreparedStatement updatePermission = null;
+       String PermissionString =
+           //"select addpermission(?,?,?,?)";
+           "update permission set potentiallyinsecure= ? where permissionname =?";
+       
+              updatePermission = conn.prepareStatement(PermissionString);
+              updatePermission.setBoolean(1, x);
+              updatePermission.setString(2, y);
+              updatePermission.executeUpdate();
+
+ 
+       } 
+       catch (SQLException e ) {
+        e.printStackTrace();
+       }
+   }
+
+public static void updateFramework(boolean x, String y)
+        throws SQLException {
+try{
+        PreparedStatement updatePermission = null;
+       String PermissionString =
+           //"select addpermission(?,?,?,?)";
+           "update framework set potentiallyinsecure= ? where frameworkname =?";
+       
+              updatePermission = conn.prepareStatement(PermissionString);
+              updatePermission.setBoolean(1, x);
+              updatePermission.setString(2, y);
+              updatePermission.executeUpdate();
+
+ 
        } 
        catch (SQLException e ) {
         e.printStackTrace();
@@ -543,7 +605,6 @@ public static Application readJSON(String json) throws org.json.JSONException
     
     public static ResultSet getAllPermissions()
       throws SQLException {
-  
               
       try {
           PreparedStatement stmt = null;
@@ -559,6 +620,57 @@ public static Application readJSON(String json) throws org.json.JSONException
       }
       return null;
  }   
+    
+    public static ResultSet getAllFrameworks()
+      throws SQLException {
+              
+      try {
+          PreparedStatement stmt = null;
+          String query = "Select * from framework "
+                  + "where frameworkname not in "
+                  + "(select getunknownframeworks()) order by frameworkname;";
+          stmt = conn.prepareStatement(query);
+          ResultSet rs = stmt.executeQuery();
+          return rs;
+      } catch (SQLException e ) {
+          //System.out.println(e.getMessage());
+       e.printStackTrace();
+      }
+      return null;
+ }   
+    
+       public static ResultSet getUnknownPermissions()
+      throws SQLException {
+              
+      try {
+          PreparedStatement stmt = null;
+          String query = "Select getunknownpermissions()";
+          stmt = conn.prepareStatement(query);
+          ResultSet rs = stmt.executeQuery();
+          return rs;
+      } catch (SQLException e ) {
+          //System.out.println(e.getMessage());
+       e.printStackTrace();
+      }
+      return null;
+ }   
+       
+       public static ResultSet getUnknownFrameworks()
+      throws SQLException {
+              
+      try {
+          PreparedStatement stmt = null;
+          String query = "Select getunknownFrameworks()";
+          stmt = conn.prepareStatement(query);
+          ResultSet rs = stmt.executeQuery();
+          return rs;
+      } catch (SQLException e ) {
+          //System.out.println(e.getMessage());
+       e.printStackTrace();
+      }
+      return null;
+ }   
+    
     
     private static void getStartAndEndTimestampFromYearAndMonth(int year, int month, Timestamp start, Timestamp end) {
         Calendar cal = Calendar.getInstance();

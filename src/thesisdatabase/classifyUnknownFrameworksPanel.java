@@ -13,12 +13,12 @@ import javax.swing.ButtonGroup;
  *
  * @author waltersquires
  */
-public class classifyUnknownPermissionsPanel extends javax.swing.JPanel {
+public class classifyUnknownFrameworksPanel extends javax.swing.JPanel {
 String permission ="";
     /**
      * Creates new form classifyUnknownPermissionsPanel
      */
-    public classifyUnknownPermissionsPanel() {
+    public classifyUnknownFrameworksPanel() {
         initComponents();
         groupButton();
     }
@@ -47,7 +47,7 @@ String permission ="";
                 {null}
             },
             new String [] {
-                "Permission"
+                "Framework"
             }
         ));
         perm.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -139,9 +139,9 @@ String permission ="";
         
         try
         {
-          ThesisDatabase.updatePermission(isSecure, permission);
+          ThesisDatabase.updateFramework(isSecure, permission);
          // perm;
-          QueriesPanel.populateUnknownTable();
+          QueriesPanel.populateUnknownTable2();
 
         }
         catch (SQLException e ) {

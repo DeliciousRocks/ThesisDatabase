@@ -35,6 +35,8 @@ public class AppData extends javax.swing.JPanel {
         jTable2 = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable3 = new javax.swing.JTable();
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -65,7 +67,7 @@ public class AppData extends javax.swing.JPanel {
         col.setPreferredWidth(25);
         jScrollPane1.setViewportView(jTable1);
 
-        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 380, 140));
+        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 380, 140));
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -100,6 +102,21 @@ public class AppData extends javax.swing.JPanel {
             }
         });
         add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 250, -1, -1));
+
+        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
+            },
+            new String [] {
+                "Framework Name", "Is Secure?"
+            }
+        ));
+        jScrollPane3.setViewportView(jTable3);
+
+        add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 380, 140));
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -113,7 +130,9 @@ ThesisDatabase.window.selectPanel(2);
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     public javax.swing.JTable jTable1;
     public javax.swing.JTable jTable2;
+    public javax.swing.JTable jTable3;
     // End of variables declaration//GEN-END:variables
 }

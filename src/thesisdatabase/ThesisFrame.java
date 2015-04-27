@@ -29,7 +29,10 @@ public class ThesisFrame extends java.awt.Frame {
         panels.add(classifyUnknownPermissionsPanel1);
         panels.add(editUserPanel1);
         panels.add(userActivityPanel1);
-        //panels.add(addUserPanel1);
+        panels.add(classifyUnknownFrameworksPanel1);
+        panels.add(viewFrameworksPanel1);
+
+        
     }
     
     public void selectPanel(int s)
@@ -77,6 +80,8 @@ public class ThesisFrame extends java.awt.Frame {
         classifyUnknownPermissionsPanel1 = new thesisdatabase.classifyUnknownPermissionsPanel();
         editUserPanel1 = new thesisdatabase.EditUserPanel();
         userActivityPanel1 = new thesisdatabase.UserActivityPanel();
+        classifyUnknownFrameworksPanel1 = new thesisdatabase.classifyUnknownFrameworksPanel();
+        viewFrameworksPanel1 = new thesisdatabase.ViewFrameworksPanel();
 
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -94,6 +99,8 @@ public class ThesisFrame extends java.awt.Frame {
         add(classifyUnknownPermissionsPanel1, "card9");
         add(editUserPanel1, "card10");
         add(userActivityPanel1, "card11");
+        add(classifyUnknownFrameworksPanel1, "card12");
+        add(viewFrameworksPanel1, "card13");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -120,6 +127,24 @@ public class ThesisFrame extends java.awt.Frame {
         return viewPermissionsPanel1;
     }
     
+    
+    public ViewFrameworksPanel getViewFrameworksPanel()
+    {
+        return viewFrameworksPanel1;
+    }
+    
+    
+     public classifyUnknownPermissionsPanel getViewUNKNOWNPermissionsPanel()
+    {
+        return classifyUnknownPermissionsPanel1;
+    }
+     
+      public classifyUnknownFrameworksPanel getViewUNKNOWNFrameworksPanel()
+    {
+        return classifyUnknownFrameworksPanel1;
+    }
+     
+    
     public void loadUserForEditing(String username, String password, int role, String quota) {
         editUserPanel1.setUser(username, password, role, quota);
     }
@@ -131,11 +156,13 @@ public class ThesisFrame extends java.awt.Frame {
     private thesisdatabase.AddUserPanel addUserPanel1;
     private thesisdatabase.AppData androidResults1;
     private thesisdatabase.AppPrivilegesPanel appPrivilegesPanel2;
+    private thesisdatabase.classifyUnknownFrameworksPanel classifyUnknownFrameworksPanel1;
     private thesisdatabase.classifyUnknownPermissionsPanel classifyUnknownPermissionsPanel1;
     private thesisdatabase.EditUserPanel editUserPanel1;
     private thesisdatabase.LoginPanel loginPanel2;
     private thesisdatabase.QueriesPanel queriesPanel1;
     private thesisdatabase.UserActivityPanel userActivityPanel1;
+    private thesisdatabase.ViewFrameworksPanel viewFrameworksPanel1;
     private thesisdatabase.ViewPermissionsPanel viewPermissionsPanel1;
     // End of variables declaration//GEN-END:variables
 }

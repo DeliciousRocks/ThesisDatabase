@@ -233,6 +233,22 @@ $$;
 
 
 
+
+CREATE OR REPLACE FUNCTION getunknownframeworks()
+  RETURNS SETOF text AS
+$BODY$
+ 
+	 Select frameworkname from framework where potentiallyinsecure is null;
+
+$BODY$
+  LANGUAGE sql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION getunknownpermissions()
+  OWNER TO postgres;
+
+
+
 CREATE FUNCTION getuserrole(name text)
   RETURNS integer AS
 $BODY$
