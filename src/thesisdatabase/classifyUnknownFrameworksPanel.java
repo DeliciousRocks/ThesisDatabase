@@ -5,7 +5,6 @@
  */
 package thesisdatabase;
 
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import javax.swing.ButtonGroup;
 
@@ -137,15 +136,13 @@ String permission ="";
         else if (secure.isSelected())
             isSecure=true;
         
-        try
-        {
+        try {
           ThesisDatabase.updateFramework(isSecure, permission);
          // perm;
 //          QueriesPanel.populateUnknownTable2();
 
-        }
-        catch (SQLException e ) {
-        e.printStackTrace();
+        } catch (SQLException e ) {
+            e.printStackTrace();
        }
         
     }//GEN-LAST:event_updateButtonActionPerformed

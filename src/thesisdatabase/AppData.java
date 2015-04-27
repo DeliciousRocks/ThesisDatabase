@@ -5,7 +5,11 @@
  */
 package thesisdatabase;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
+import net.proteanit.sql.DbUtils;
 
 /**
  *
@@ -29,26 +33,30 @@ public class AppData extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        buttonGroup1 = new javax.swing.ButtonGroup();
+        permissionScrollPane = new javax.swing.JScrollPane();
+        permissionTable = new javax.swing.JTable();
+        appScrollPane = new javax.swing.JScrollPane();
+        appTable = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
+        backButton = new javax.swing.JButton();
+        frameworkScrollPane = new javax.swing.JScrollPane();
+        frameworkTable = new javax.swing.JTable();
+        usedRadioButton = new javax.swing.JRadioButton();
+        unusedRadioButton = new javax.swing.JRadioButton();
+        updateButton = new javax.swing.JButton();
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        permissionTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Permission Name", "Required", "Requested", "Used Dynamically"
+                "Permission Name", "Required", "Requested", "Dynamically Used"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -59,51 +67,56 @@ public class AppData extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        TableColumn col = jTable1.getColumnModel().getColumn(0);
+        TableColumn col = permissionTable.getColumnModel().getColumn(0);
         col.setPreferredWidth(200);
-        col = jTable1.getColumnModel().getColumn(1);
+        col = permissionTable.getColumnModel().getColumn(1);
         col.setPreferredWidth(25);
-        col = jTable1.getColumnModel().getColumn(2);
+        col = permissionTable.getColumnModel().getColumn(2);
         col.setPreferredWidth(25);
-        jScrollPane1.setViewportView(jTable1);
+        permissionTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                permissionTableMouseClicked(evt);
+            }
+        });
+        permissionScrollPane.setViewportView(permissionTable);
 
-        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 380, 140));
+        add(permissionScrollPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 470, 160));
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        appTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "App Name", "App Developer", "Uploaded By", "Date Uploaded", "Genre"
+                "App Name", "App Developer", "Uploaded By", "Date Uploaded", "Genre", "OS"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(jTable2);
+        appScrollPane.setViewportView(appTable);
 
-        add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 380, 60));
+        add(appScrollPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 580, 60));
 
         jLabel1.setText("Application Data");
         add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
 
-        jButton1.setText("Back");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        backButton.setText("Back");
+        backButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                backButtonActionPerformed(evt);
             }
         });
-        add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 250, -1, -1));
+        add(backButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 280, -1, -1));
 
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+        frameworkTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
                 {null, null},
@@ -111,28 +124,117 @@ public class AppData extends javax.swing.JPanel {
                 {null, null}
             },
             new String [] {
-                "Framework Name", "Is Secure?"
+                "Framework Name", "Used Dynamically"
             }
-        ));
-        jScrollPane3.setViewportView(jTable3);
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
 
-        add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 380, 140));
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        frameworkTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                frameworkTableMouseClicked(evt);
+            }
+        });
+        frameworkScrollPane.setViewportView(frameworkTable);
+
+        add(frameworkScrollPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 470, 160));
+
+        buttonGroup1.add(usedRadioButton);
+        usedRadioButton.setText("Used Dynamically");
+        usedRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                usedRadioButtonActionPerformed(evt);
+            }
+        });
+        add(usedRadioButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 130, -1, -1));
+
+        buttonGroup1.add(unusedRadioButton);
+        unusedRadioButton.setText("Not Used Dynamically");
+        add(unusedRadioButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 160, -1, -1));
+
+        updateButton.setText("Update");
+        updateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateButtonActionPerformed(evt);
+            }
+        });
+        add(updateButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 200, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-ThesisDatabase.window.selectPanel(2);
+
+    public void loadApp(int id, ResultSet appRs) throws SQLException {
+        appId = id;
+        appTable.setModel(DbUtils.resultSetToTableModel(appRs));
+        appName = (String)appTable.getValueAt(0, 1);
+        os = (String)appTable.getValueAt(0, 6);
+        loadPermissionsOrFrameworks();
+    }
+
+    private void loadPermissionsOrFrameworks() throws SQLException {
+        boolean isAndroidApp = os.equals("Android");
+        if (isAndroidApp) {
+            ResultSet permissions = ThesisDatabase.getPermissions(appId);
+            permissionTable.setModel(DbUtils.resultSetToTableModel(permissions));
+        } else {
+            ResultSet frameworks = ThesisDatabase.getFrameworks(appId);
+            frameworkTable.setModel(DbUtils.resultSetToTableModel(frameworks));
+        }
+
+        permissionScrollPane.setVisible(isAndroidApp);
+        frameworkScrollPane.setVisible(!isAndroidApp);
+    }
+
+    private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
+        ThesisDatabase.window.selectPanel(2);
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_backButtonActionPerformed
 
+    private void usedRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usedRadioButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_usedRadioButtonActionPerformed
 
+    private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
+        boolean isUsedDynamically = usedRadioButton.isSelected();
+        ThesisDatabase.updateDynamicallyUsed(isUsedDynamically, selectedItem, appName, os);
+        try {
+            loadPermissionsOrFrameworks();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }        
+    }//GEN-LAST:event_updateButtonActionPerformed
+
+    private void permissionTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_permissionTableMouseClicked
+        int row = permissionTable.getSelectedRow();
+        selectedItem = (String)permissionTable.getValueAt(row, 0);
+    }//GEN-LAST:event_permissionTableMouseClicked
+
+    private void frameworkTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_frameworkTableMouseClicked
+        int row = frameworkTable.getSelectedRow();
+        selectedItem = (String)frameworkTable.getValueAt(row, 0);
+    }//GEN-LAST:event_frameworkTableMouseClicked
+
+    private String selectedItem;
+    private String appName;
+    private String os;
+    private int appId;
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JScrollPane appScrollPane;
+    public javax.swing.JTable appTable;
+    private javax.swing.JButton backButton;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JScrollPane frameworkScrollPane;
+    public javax.swing.JTable frameworkTable;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    public javax.swing.JTable jTable1;
-    public javax.swing.JTable jTable2;
-    public javax.swing.JTable jTable3;
+    private javax.swing.JScrollPane permissionScrollPane;
+    public javax.swing.JTable permissionTable;
+    private javax.swing.JRadioButton unusedRadioButton;
+    private javax.swing.JButton updateButton;
+    private javax.swing.JRadioButton usedRadioButton;
     // End of variables declaration//GEN-END:variables
 }

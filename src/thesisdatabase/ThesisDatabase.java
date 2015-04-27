@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import org.json.JSONArray;
@@ -156,7 +157,7 @@ public class ThesisDatabase
       try {
           PreparedStatement stmt = null;
               String query =
-                      "select os,appName,developer,addedby,dateadded,genre"
+                      "select os,appName,developer,addedby,dateadded,genre,os"
                       + " from application"
                       + " where appId = ?";
           
@@ -332,6 +333,7 @@ try{
        }
    }
 
+
 public static void updateFramework(boolean x, String y)
         throws SQLException {
 try{
@@ -352,6 +354,33 @@ try{
        }
    }
 
+public static boolean updateDynamicallyUsed(boolean isUsedDynamically, String permissionOrFramework, String appName, String os) {
+    // Change query slightly based on if OS is Android or iOS.
+    String query = os.equals("Android")
+    ?
+            "update apphaspermission " +
+            "set useddynamically=? " +
+            "where appid=(select appid from application where appname=?) " +
+            "and permissionname=?"
+    :
+            "update apphasframework " +
+            "set useddynamically=? " +
+            "where appid=(select appid from application where appname=?) " +
+            "and packagename=?";
+    
+    try {
+        PreparedStatement stmt = conn.prepareStatement(query);
+        stmt.setBoolean(1, isUsedDynamically);
+        stmt.setString(2, appName);
+        stmt.setString(3, permissionOrFramework);
+        stmt.executeUpdate();
+        return true;
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return false;
+    }
+}
+        
 
 public static void addPackage(int id, String x)
         throws SQLException {
@@ -662,9 +691,9 @@ public static Application readJSON(String json) throws org.json.JSONException
       return null;
  }   
     
-       public static ResultSet getUnknownPermissions()
+      public static ResultSet getUnknownPermissions()
       throws SQLException {
-              
+      
       try {
           PreparedStatement stmt = null;
           String query = "Select getunknownpermissions()";
@@ -673,7 +702,7 @@ public static Application readJSON(String json) throws org.json.JSONException
           return rs;
       } catch (SQLException e ) {
           //System.out.println(e.getMessage());
-       e.printStackTrace();
+            e.printStackTrace();
       }
       return null;
  }   
@@ -728,6 +757,34 @@ public static Application readJSON(String json) throws org.json.JSONException
             stmt = conn.prepareStatement(potentiallyInsecureQuery);
             ResultSet rs = stmt.executeQuery();
             return rs;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
+    public static List<Integer> getStaticAnalysisStats() {
+	// good 0, under 1, over 2, both 3
+        List<String> queries = new ArrayList<String>();
+        queries.add("select count(*) from getAppsWithPrivilegeStatus(0)"); // Good
+        queries.add("select count(*) from getAppsWithPrivilegeStatus(1)"); // Under
+        queries.add("select count(*) from getAppsWithPrivilegeStatus(2)"); // Over
+        queries.add("select count(*) from getAppsWithPrivilegeStatus(3)"); // Both
+        
+        try {
+            
+            List<Integer> stats = new ArrayList<Integer>();
+            
+            List<PreparedStatement> stmts = new ArrayList<PreparedStatement>();
+            for (String query : queries)
+                stmts.add(conn.prepareStatement(query));
+            for (PreparedStatement stmt : stmts) {
+                ResultSet rs = stmt.executeQuery();
+                rs.next();
+                stats.add(rs.getInt(1));
+            }
+            
+            return stats;
         } catch (SQLException e) {
             e.printStackTrace();
             return null;

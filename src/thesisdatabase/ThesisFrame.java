@@ -32,7 +32,6 @@ public class ThesisFrame extends java.awt.Frame {
         panels.add(potentiallyInsecurePanel1);
         panels.add(classifyUnknownFrameworksPanel1);
         panels.add(viewFrameworksPanel1);
-        //panels.add(addUserPanel1);
     }
     
     public void selectPanel(int s)
