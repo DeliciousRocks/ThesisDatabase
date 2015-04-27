@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
+import net.proteanit.sql.DbUtils;
 
 
 /**
@@ -47,8 +48,7 @@ public class QueriesPanel extends javax.swing.JPanel {
         unknownPermissionsButton = new javax.swing.JButton();
         editUserButton = new javax.swing.JButton();
         userActivityButton = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        potentiallyInsecureButton = new javax.swing.JButton();
 
         welcomeLabel.setText("Welcome,");
 
@@ -88,7 +88,7 @@ public class QueriesPanel extends javax.swing.JPanel {
             }
         });
 
-        viewPermissionsButton.setText("View Classified Permissions");
+        viewPermissionsButton.setText("View Permissions");
         viewPermissionsButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 viewPermissionsButtonActionPerformed(evt);
@@ -117,17 +117,10 @@ public class QueriesPanel extends javax.swing.JPanel {
             }
         });
 
-        jButton1.setText("Review Unknown Frameworks");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        potentiallyInsecureButton.setText("View Potentially Insecure Apps");
+        potentiallyInsecureButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
-        jButton2.setText("View Classified Frameworks");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                potentiallyInsecureButtonActionPerformed(evt);
             }
         });
 
@@ -138,35 +131,28 @@ public class QueriesPanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(32, 32, 32)
+                        .addComponent(welcomeLabel)
+                        .addGap(6, 6, 6)
+                        .addComponent(userNameLabel))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(addUserButton)
+                            .addComponent(addAppButton)
+                            .addComponent(userActivityButton)
+                            .addComponent(editUserButton))
+                        .addGap(112, 112, 112)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(32, 32, 32)
-                                .addComponent(welcomeLabel)
-                                .addGap(6, 6, 6)
-                                .addComponent(userNameLabel))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(22, 22, 22)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(addUserButton)
-                                    .addComponent(addAppButton)
-                                    .addComponent(userActivityButton)
-                                    .addComponent(editUserButton))
-                                .addGap(112, 112, 112)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(viewAppDataButton)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(appId, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(appPrivilegeButton)
-                                    .addComponent(viewPermissionsButton)
-                                    .addComponent(jButton2))))
-                        .addGap(0, 11, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton1)
-                            .addComponent(unknownPermissionsButton))))
-                .addContainerGap())
+                                .addComponent(viewAppDataButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(appId, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(appPrivilegeButton)
+                            .addComponent(viewPermissionsButton)
+                            .addComponent(unknownPermissionsButton)
+                            .addComponent(potentiallyInsecureButton))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -191,12 +177,9 @@ public class QueriesPanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(userActivityButton)
-                    .addComponent(jButton2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(unknownPermissionsButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
-                .addContainerGap(28, Short.MAX_VALUE))
+                    .addComponent(potentiallyInsecureButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
+                .addComponent(unknownPermissionsButton))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -217,51 +200,13 @@ public class QueriesPanel extends javax.swing.JPanel {
                   temp.jTable2.setValueAt(app.getString("developer"), 0,1);
                   temp.jTable2.setValueAt(name, 0, 2);
                   temp.jTable2.setValueAt(app.getString("dateadded"), 0, 3); 
+                  temp.jTable2.setValueAt(app.getString("genre"), 0, 4); 
 
-                  if(app.getString("os").equals("Android"))
-                  {                 
                   DefaultTableModel model = (DefaultTableModel) temp.jTable1.getModel();
-                  temp.jTable1.setVisible(true);
-                  temp.jTable3.setVisible(false);
+
                   ResultSet permissions = ThesisDatabase.getPermissions(Integer.parseInt(appId.getText()));
-                  int h= temp.jTable1.getRowCount();
-                  int row = 0;
-                  while(permissions.next())
-                  {
-                     temp.jTable1.setValueAt(permissions.getString("permissionName"), row, 0);
-                     temp.jTable1.setValueAt(permissions.getBoolean("requested"), row,1);
-                     temp.jTable1.setValueAt(permissions.getBoolean("required"), row, 2);
-                     row++;
-                     
-                        if(row>= h)
-                        {
-                          h++;
-                          model.setRowCount(h);
-                        }
-                  }
-                  }
-                  else
-                  {
-                  DefaultTableModel model = (DefaultTableModel) temp.jTable3.getModel();
-                  temp.jTable1.setVisible(false);
-                  temp.jTable3.setVisible(true);
-                  ResultSet permissions = ThesisDatabase.getFrameworks(Integer.parseInt(appId.getText()));
-                  int h= temp.jTable3.getRowCount();
-                  int row = 0;
-                  while(permissions.next())
-                  {
-                     System.out.println(permissions.getString("frameworkName"));
-                     temp.jTable3.setValueAt(permissions.getString("frameworkName"), row, 0);
-                     temp.jTable3.setValueAt(permissions.getBoolean("potentiallyinsecure"), row,1);
-                     row++;
-                     
-                        if(row>= h)
-                        {
-                          h++;
-                          model.setRowCount(h);
-                        }
-                  }
-                  }
+                  temp.jTable1.setModel(DbUtils.resultSetToTableModel(permissions));
+
                   ThesisDatabase.window.selectPanel(3);
                   appId.setText("");
           }
@@ -284,43 +229,7 @@ public class QueriesPanel extends javax.swing.JPanel {
     
     
     private void appPrivilegeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_appPrivilegeButtonActionPerformed
-     try
-     {
-       ArrayList<ResultSet> app = ThesisDatabase.getAppsbyStatus();
-       for(int i = 0; i<4; i++)
-       {
-         int row = 0;
-         while (app.get(i).next())
-         {
-              javax.swing.JTable temp = new javax.swing.JTable();
-              temp = ThesisDatabase.window.getPrivilegesPanel().getTable(i);
-                  temp.setValueAt(app.get(i).getInt("appId"), row, 0);
-                  temp.setValueAt(app.get(i).getString("appName"), row,1);
-                  temp.setValueAt(app.get(i).getString("versioncode"), row,2);
-                  temp.setValueAt(app.get(i).getString("os"), row,3);
-
-                  DefaultTableModel model = (DefaultTableModel) temp.getModel();
-                  int h= temp.getRowCount();    
-                        if(row>= h)
-                        {
-                          h++;
-                          model.setRowCount(h);
-                        }
-                        row++;
-                  }  
-       }
-        
-                  
-                  ThesisDatabase.window.selectPanel(3);
-
-             
-          }
-     
-      catch (SQLException ex) {
-            Logger.getLogger(QueriesPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-                 
-        
+        ThesisDatabase.window.getPrivilegesPanel().initialize();
         ThesisDatabase.window.selectPanel(4);
     }//GEN-LAST:event_appPrivilegeButtonActionPerformed
 
@@ -368,9 +277,34 @@ try
                }//GEN-LAST:event_viewPermissionsButtonActionPerformed
 
     private void unknownPermissionsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_unknownPermissionsButtonActionPerformed
-           
-             populateUnknownTable();
+            try {
+                  ResultSet permissions = ThesisDatabase.getAllPermissions();
+       
+                  ViewPermissionsPanel temp = ThesisDatabase.window.getViewPermissionsPanel();
+                  DefaultTableModel model = (DefaultTableModel) temp.jTable1.getModel();
+                  int h= temp.jTable1.getRowCount();
+                  int row = 0;
+                  while(permissions.next())
+                  {
+                     temp.jTable1.setValueAt(permissions.getString("permissionname"), row, 0);
+                     temp.jTable1.setValueAt(permissions.getBoolean("potentiallyinsecure"), row,1);
+                     row++;
+                        if(row>= h)
+                        {
+                          h++;
+                          model.setRowCount(h);
+                        }
+                  }
+                  
              ThesisDatabase.window.selectPanel(7);
+          }
+     
+      catch (SQLException ex) {
+            Logger.getLogger(QueriesPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    
+                      ThesisDatabase.window.selectPanel(7);
+
     }//GEN-LAST:event_unknownPermissionsButtonActionPerformed
 
     private void editUserButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editUserButtonActionPerformed
@@ -383,55 +317,11 @@ try
     private void userActivityButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userActivityButtonActionPerformed
         ThesisDatabase.window.selectPanel(9);
     }//GEN-LAST:event_userActivityButtonActionPerformed
-<<<<<<< HEAD
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
-        
-             populateUnknownTable2();
-             ThesisDatabase.window.selectPanel(10);// TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-try
-     {
-       ResultSet permissions = ThesisDatabase.getAllFrameworks();
-       
-                  ViewFrameworksPanel temp = ThesisDatabase.window.getViewFrameworksPanel();
-                  DefaultTableModel model = (DefaultTableModel) temp.jTable1.getModel();
-                  int h= temp.jTable1.getRowCount();
-                  int row = 0;
-                  while(permissions.next())
-                  {
-                     temp.jTable1.setValueAt(permissions.getString("frameworkname"), row, 0);
-                     temp.jTable1.setValueAt(permissions.getBoolean("potentiallyinsecure"), row,1);
-                     row++;
-                        if(row>= h)
-                        {
-                          h++;
-                          model.setRowCount(h);
-                        }
-                  }
-                  
-                  ThesisDatabase.window.selectPanel(11);
-          }
-     
-     catch(NumberFormatException e)
-     {
-          JOptionPane.showMessageDialog(ThesisDatabase.popUp,
-          "Not an integer. Please try again",
-          "Whoops!",
-          JOptionPane.ERROR_MESSAGE);
-     } 
-catch (SQLException ex)
-     {
-            Logger.getLogger(QueriesPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-               
-           // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
-=======
->>>>>>> origin/master
+    private void potentiallyInsecureButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_potentiallyInsecureButtonActionPerformed
+        ThesisDatabase.window.getPotentiallyInsecurePanel().populateTable();
+        ThesisDatabase.window.selectPanel(10);
+    }//GEN-LAST:event_potentiallyInsecureButtonActionPerformed
 
     public void guestMode()
     {
@@ -450,70 +340,6 @@ catch (SQLException ex)
         //addAppButton.setVisible(false);
 
     }
-    
-    public static void populateUnknownTable()
-    {
-     try{
-        ResultSet permissions = ThesisDatabase.getUnknownPermissions();
-        int row = 0;
-        javax.swing.JTable temp = new javax.swing.JTable();
-        temp = ThesisDatabase.window.getViewUNKNOWNPermissionsPanel().perm;
-        DefaultTableModel model = (DefaultTableModel) temp.getModel();
-        model.setRowCount(row);
-
-         while (permissions.next())
-         {
-              
-              if(row>= temp.getRowCount())
-              {
-             model.setRowCount(row+1);
-             }
-            temp.setValueAt(permissions.getString("getunknownpermissions"),row , 0);
-            row++;
-
-              
-                 
-         }  
-       }
-       catch (SQLException ex) 
-       {
-            Logger.getLogger(QueriesPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-<<<<<<< HEAD
-    
-    public static void populateUnknownTable2()
-    {
-     try{
-
-        ResultSet permissions = ThesisDatabase.getUnknownFrameworks();
-        int row = 0;
-        javax.swing.JTable temp = new javax.swing.JTable();
-        temp = ThesisDatabase.window.getViewUNKNOWNFrameworksPanel().perm;
-        DefaultTableModel model = (DefaultTableModel) temp.getModel();
-        model.setRowCount(row);
-
-         while (permissions.next())
-         {
-              
-              if(row>= temp.getRowCount())
-              {
-             model.setRowCount(row+1);
-             }
-            temp.setValueAt(permissions.getString("getunknownframeworks"),row , 0);
-            row++;
-
-              
-                 
-         }  
-       }
-       catch (SQLException ex) 
-       {
-            Logger.getLogger(QueriesPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-=======
->>>>>>> origin/master
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addAppButton;
@@ -521,8 +347,7 @@ catch (SQLException ex)
     private javax.swing.JTextField appId;
     private javax.swing.JButton appPrivilegeButton;
     private javax.swing.JButton editUserButton;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton potentiallyInsecureButton;
     private javax.swing.JButton unknownPermissionsButton;
     private javax.swing.JButton userActivityButton;
     private javax.swing.JLabel userNameLabel;

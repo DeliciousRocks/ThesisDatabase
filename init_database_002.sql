@@ -53,6 +53,7 @@ CREATE TABLE apphaspermission (
     permissionname character varying(255),
     requested boolean,
     required boolean,
+    useddynamically boolean
     primary key (appid, permissionname),
     constraint androidid_fkey foreign key (appid) references application(appid),
     constraint permissionname_fkey foreign key (permissionname) references permission(permissionname)
@@ -61,7 +62,8 @@ CREATE TABLE apphaspermission (
 
 CREATE TABLE apphasframework (
     appid integer,
-    packagename character varying(255),
+    frameworkname character varying(255),
+    useddynamically boolean
     primary key (appid, packagename),
     constraint androidid_fkey FOREIGN KEY (appid) REFERENCES application(appid),
     constraint packagename_fkey FOREIGN KEY (packagename) REFERENCES framework(frameworkname)
@@ -232,9 +234,7 @@ $$;
 */
 
 
-
-
-CREATE OR REPLACE FUNCTION getunknownframeworks()
+CREATE FUNCTION getunknownframeworks()
   RETURNS SETOF text AS
 $BODY$
  
@@ -305,7 +305,7 @@ END;
 $$;
 
 
-CREATE OR REPLACE FUNCTION getuserrole(n character varying)
+CREATE FUNCTION getuserrole(n character varying)
   RETURNS integer AS
 $BODY$
 DECLARE 
@@ -316,32 +316,10 @@ BEGIN
 	
 end;
 $BODY$
-  LANGUAGE plpgsql VOLATILE
-  COST 100;
-ALTER FUNCTION getuserrole(character varying)
-  OWNER TO postgres;
-
-CREATE OR REPLACE FUNCTION getuserrole(name text)
-  RETURNS integer AS
-$BODY$
-DECLARE 
-	urole integer;
-	BEGIN
-		select role into urole
-		from users
-		where username = name;
-		
-		return urole;
-			
-	end;
-$BODY$
-  LANGUAGE plpgsql VOLATILE
-  COST 100;
-ALTER FUNCTION getuserrole(text)
-  OWNER TO postgres;
+  LANGUAGE plpgsql;
 
 
-CREATE OR REPLACE FUNCTION getusername(x integer)
+CREATE FUNCTION getusername(x integer)
   RETURNS text AS
 $BODY$
 DECLARE
@@ -349,13 +327,13 @@ y text;
 BEGIN
 	Select username into y from users where userid =x;
 	return y;
-	
 end;
 $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100;
 ALTER FUNCTION getusername(integer)
   OWNER TO postgres;
+
 
   CREATE OR REPLACE FUNCTION getunknownpermissions()
   RETURNS SETOF text AS

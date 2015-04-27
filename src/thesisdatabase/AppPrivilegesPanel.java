@@ -5,9 +5,14 @@
  */
 package thesisdatabase;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JTable;
+import net.proteanit.sql.DbUtils;
 
 /**
  *
@@ -20,27 +25,33 @@ public class AppPrivilegesPanel extends javax.swing.JPanel {
      */
     public AppPrivilegesPanel() {
         initComponents();
-        populateTables();
+        
+        tables = new ArrayList<JTable>();
+        tables.add(overPrivilegedTable);
+        tables.add(underPrivilegedTable);
+        tables.add(underAndOverTable);
+        tables.add(correctlyPrivilegedTable);
     }
     
-    public javax.swing.JTable getTable(int i)
-    {
-        if (i==0)
-            return jTable1;
-        else if (i==1)
-            return jTable2;
-        else if (i==2)
-            return jTable4;
-        else if (i==3)
-            return jTable3;
-        else 
-            return null;
+
+    public void initialize() {
+        try {
+           ArrayList<ResultSet> app = ThesisDatabase.getAppsbyStatus();
+           for(int i = 0; i<4; i++) {
+               while (app.get(i).next()) {
+                   int row = 0;
+                   
+                   tables.get(i).setModel(DbUtils.resultSetToTableModel(app.get(i)));
+               }
+           }
+           
+           ThesisDatabase.window.selectPanel(3);
+        } catch (SQLException ex) {
+            Logger.getLogger(QueriesPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     private void populateTables() {
-        /*ThesisDatabase.getGoodApps();
-        ThesisDatabase.getUnderprivilegedApps();
-        ThesisDatabase.getOverprivilegedApps();*/
     }
 
     /**
@@ -55,19 +66,19 @@ public class AppPrivilegesPanel extends javax.swing.JPanel {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        overPrivilegedTable = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        underPrivilegedTable = new javax.swing.JTable();
         jButton2 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
+        underAndOverTable = new javax.swing.JTable();
         jButton3 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTable4 = new javax.swing.JTable();
+        correctlyPrivilegedTable = new javax.swing.JTable();
         jButton4 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -89,7 +100,7 @@ public class AppPrivilegesPanel extends javax.swing.JPanel {
         jScrollPane1.setMaximumSize(new java.awt.Dimension(350, 200));
         jScrollPane1.setPreferredSize(new java.awt.Dimension(400, 200));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        overPrivilegedTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -100,9 +111,9 @@ public class AppPrivilegesPanel extends javax.swing.JPanel {
                 "App Id", "App Name", "Version Code", "Platform"
             }
         ));
-        jTable1.setBounds(new java.awt.Rectangle(0, 0, 350, 64));
-        jTable1.setPreferredSize(new java.awt.Dimension(250, 64));
-        jScrollPane1.setViewportView(jTable1);
+        overPrivilegedTable.setBounds(new java.awt.Rectangle(0, 0, 350, 64));
+        overPrivilegedTable.setPreferredSize(new java.awt.Dimension(250, 64));
+        jScrollPane1.setViewportView(overPrivilegedTable);
 
         jPanel1.add(jScrollPane1);
 
@@ -119,7 +130,7 @@ public class AppPrivilegesPanel extends javax.swing.JPanel {
         jScrollPane2.setMaximumSize(new java.awt.Dimension(350, 200));
         jScrollPane2.setPreferredSize(new java.awt.Dimension(400, 200));
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        underPrivilegedTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -130,9 +141,9 @@ public class AppPrivilegesPanel extends javax.swing.JPanel {
                 "App Id", "App Name", "Version Code", "Platform"
             }
         ));
-        jTable2.setBounds(new java.awt.Rectangle(0, 0, 350, 64));
-        jTable2.setPreferredSize(new java.awt.Dimension(250, 64));
-        jScrollPane2.setViewportView(jTable2);
+        underPrivilegedTable.setBounds(new java.awt.Rectangle(0, 0, 350, 64));
+        underPrivilegedTable.setPreferredSize(new java.awt.Dimension(250, 64));
+        jScrollPane2.setViewportView(underPrivilegedTable);
 
         jPanel2.add(jScrollPane2);
 
@@ -149,7 +160,7 @@ public class AppPrivilegesPanel extends javax.swing.JPanel {
         jScrollPane3.setMaximumSize(new java.awt.Dimension(350, 200));
         jScrollPane3.setPreferredSize(new java.awt.Dimension(400, 200));
 
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+        underAndOverTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -160,9 +171,9 @@ public class AppPrivilegesPanel extends javax.swing.JPanel {
                 "App Id", "App Name", "Version Code", "Platform"
             }
         ));
-        jTable3.setBounds(new java.awt.Rectangle(0, 0, 350, 64));
-        jTable3.setPreferredSize(new java.awt.Dimension(250, 64));
-        jScrollPane3.setViewportView(jTable3);
+        underAndOverTable.setBounds(new java.awt.Rectangle(0, 0, 350, 64));
+        underAndOverTable.setPreferredSize(new java.awt.Dimension(250, 64));
+        jScrollPane3.setViewportView(underAndOverTable);
 
         jPanel3.add(jScrollPane3);
 
@@ -179,7 +190,7 @@ public class AppPrivilegesPanel extends javax.swing.JPanel {
         jScrollPane4.setMaximumSize(new java.awt.Dimension(350, 200));
         jScrollPane4.setPreferredSize(new java.awt.Dimension(400, 200));
 
-        jTable4.setModel(new javax.swing.table.DefaultTableModel(
+        correctlyPrivilegedTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -190,9 +201,9 @@ public class AppPrivilegesPanel extends javax.swing.JPanel {
                 "App Id", "App Name", "Version Code", "Platform"
             }
         ));
-        jTable4.setBounds(new java.awt.Rectangle(0, 0, 350, 64));
-        jTable4.setPreferredSize(new java.awt.Dimension(250, 64));
-        jScrollPane4.setViewportView(jTable4);
+        correctlyPrivilegedTable.setBounds(new java.awt.Rectangle(0, 0, 350, 64));
+        correctlyPrivilegedTable.setPreferredSize(new java.awt.Dimension(250, 64));
+        jScrollPane4.setViewportView(correctlyPrivilegedTable);
 
         jPanel4.add(jScrollPane4);
 
@@ -293,9 +304,11 @@ ThesisDatabase.window.selectPanel(2);        // TODO add your handling code here
         // TODO add your handling code here:
     }//GEN-LAST:event_BackActionPerformed
 
-
+    
+    private List<JTable> tables;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Back;
+    private javax.swing.JTable correctlyPrivilegedTable;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -316,15 +329,14 @@ ThesisDatabase.window.selectPanel(2);        // TODO add your handling code here
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTable jTable3;
-    private javax.swing.JTable jTable4;
     private javax.swing.JLabel overAndroidNumber;
+    private javax.swing.JTable overPrivilegedTable;
     private javax.swing.JLabel overiOSNumber;
     private javax.swing.JLabel properAndroidNumber;
     private javax.swing.JLabel properiOSNumber;
+    private javax.swing.JTable underAndOverTable;
     private javax.swing.JLabel underAndroidNumber;
+    private javax.swing.JTable underPrivilegedTable;
     private javax.swing.JLabel underiOSNumber;
     // End of variables declaration//GEN-END:variables
 }

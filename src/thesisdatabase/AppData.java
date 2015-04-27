@@ -48,11 +48,11 @@ public class AppData extends javax.swing.JPanel {
                 {null, null, null}
             },
             new String [] {
-                "Permission Name", "Required", "Requested"
+                "Permission Name", "Required", "Requested", "Used Dynamically"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -77,11 +77,11 @@ public class AppData extends javax.swing.JPanel {
                 {null, null, null, null}
             },
             new String [] {
-                "App Name", "App Developer", "Uploaded By", "Date Uploaded"
+                "App Name", "App Developer", "Uploaded By", "Date Uploaded", "Genre"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {

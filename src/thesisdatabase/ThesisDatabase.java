@@ -64,8 +64,8 @@ public class ThesisDatabase
      {
      e1.printStackTrace();
      }
-     String url = "jdbc:postgresql://localhost:5432/Thesis";
-     //String url = "jdbc:postgresql://localhost:5432/Static_Analysis";
+     //String url = "jdbc:postgresql://localhost:5432/Thesis";
+     String url = "jdbc:postgresql://localhost:5432/Static_Analysis";
      String user = "postgres";
      String password = "A1B2C3";
 
@@ -142,9 +142,8 @@ public class ThesisDatabase
            
               return role;
     
-       } 
-       catch (SQLException e ) {
-        e.printStackTrace();
+       } catch (SQLException e ) {
+           e.printStackTrace();
        }
        return role;
    }
@@ -156,7 +155,8 @@ public class ThesisDatabase
               
       try {
           PreparedStatement stmt = null;
-              String query = "select os,appName,developer,addedby,dateadded"
+              String query =
+                      "select os,appName,developer,addedby,dateadded,genre"
                       + " from application"
                       + " where appId = ?";
           
@@ -177,9 +177,13 @@ public class ThesisDatabase
               
       try {
           PreparedStatement stmt = null;
-              String query = "select permissionname,requested,required"
-                      + " from apphaspermission"
-                      + " where appId = ?";
+              String query =
+                      "select permissionname as \"Permission Name\", "
+                      + "requested as \"Requested\", "
+                      + "required as \"Required\", "
+                      + "useddynamically as \"Used Dynamically\" "
+                      + "from apphaspermission "
+                      + "where appId = ?";
           
           stmt = conn.prepareStatement(query);
           stmt.setInt(1,id);
@@ -190,8 +194,9 @@ public class ThesisDatabase
        e.printStackTrace();
       }
       return null;
- }
-  
+ }   
+
+
   public static ResultSet getFrameworks(int id)
       throws SQLException {
   
@@ -212,6 +217,7 @@ public class ThesisDatabase
       }
       return null;
  }   
+ 
 //Adds app not permission. Yet
 public static int addNewApp(ArrayList<String> data)
         throws SQLException {
@@ -326,7 +332,6 @@ try{
        }
    }
 
-<<<<<<< HEAD
 public static void updateFramework(boolean x, String y)
         throws SQLException {
 try{
@@ -346,8 +351,7 @@ try{
         e.printStackTrace();
        }
    }
-=======
->>>>>>> origin/master
+
 
 public static void addPackage(int id, String x)
         throws SQLException {
@@ -553,7 +557,7 @@ public static Application readJSON(String json) throws org.json.JSONException
         return true;
     }
     
-    public static ResultSet getTopUsersForWeek(int numberOfUsers, int year, int month) {
+    public static ResultSet getTopUsersForMonth(int numberOfUsers, int year, int month) {
         Timestamp startTimestamp = new Timestamp(0);
         Timestamp endTimestamp = new Timestamp(0);
         getStartAndEndTimestampFromYearAndMonth(year, month, startTimestamp, endTimestamp);
@@ -580,20 +584,34 @@ public static Application readJSON(String json) throws org.json.JSONException
         }
     }
     
-    public static ResultSet getUsersUnderQuotaForWeek(int year, int month) {
+    public static ResultSet getUsersUnderQuotaForMonth(int year, int month) {
         Timestamp startTimestamp = new Timestamp(0);
         Timestamp endTimestamp = new Timestamp(0);
         getStartAndEndTimestampFromYearAndMonth(year, month, startTimestamp, endTimestamp);
         
         String underQuotaQuery =
-                "select userid as \"User ID\", username as \"User Name\", quota as \"Quota\", count(*) as \"Apps Submitted\"" +
-                "from users, application " +
-                "where userid=addedby " +
-                "and dateadded > ? " +
-                "and dateadded < ? " +
-                "group by userid " +
-                "having count(*)<quota " +
-                "order by userid";
+            "select userid as \"User ID\", " +
+                "username as \"User Name\", " +
+                "quota as \"Quota\", " +
+                "count(*) as \"Apps Submitted\" " +
+            "from users, application " +
+            "where userid=addedby " +
+            "and dateadded > ? " +
+            "and dateadded < ? " +
+            "group by userid " +
+            "having count(*)<quota " +
+            "union " +
+            "select userid as \"User ID\", " +
+                    "username as \"User Name\", " +
+                    "quota as \"Quota\", " +
+                    "0 as \"Apps Submitted\" " +
+            "from users " +
+            "where userid not in " +
+                    "(select addedby " +
+                    "from application " +
+                    "where dateadded > ? " +
+                          "and dateadded < ?) " +
+            "order by \"User ID\"";
         try {
             PreparedStatement stmt = conn.prepareStatement(underQuotaQuery);
             stmt.setTimestamp(1, startTimestamp);
@@ -608,6 +626,7 @@ public static Application readJSON(String json) throws org.json.JSONException
     
     public static ResultSet getAllPermissions()
       throws SQLException {
+  
               
       try {
           PreparedStatement stmt = null;
@@ -624,7 +643,7 @@ public static Application readJSON(String json) throws org.json.JSONException
       return null;
  }   
     
-<<<<<<< HEAD
+    
     public static ResultSet getAllFrameworks()
       throws SQLException {
               
@@ -643,8 +662,6 @@ public static Application readJSON(String json) throws org.json.JSONException
       return null;
  }   
     
-=======
->>>>>>> origin/master
        public static ResultSet getUnknownPermissions()
       throws SQLException {
               
@@ -660,7 +677,6 @@ public static Application readJSON(String json) throws org.json.JSONException
       }
       return null;
  }   
-<<<<<<< HEAD
        
        public static ResultSet getUnknownFrameworks()
       throws SQLException {
@@ -677,16 +693,46 @@ public static Application readJSON(String json) throws org.json.JSONException
       }
       return null;
  }   
-=======
->>>>>>> origin/master
     
-    
-    private static void getStartAndEndTimestampFromYearAndMonth(int year, int month, Timestamp start, Timestamp end) {
+        private static void getStartAndEndTimestampFromYearAndMonth(int year, int month, Timestamp start, Timestamp end) {
         Calendar cal = Calendar.getInstance();
         cal.set(year, month, 0);
         start.setTime(cal.getTimeInMillis());
         cal.add(Calendar.MONTH, 1);
         end.setTime(cal.getTimeInMillis());
     }
+   
+    public static ResultSet getPotentiallyInsecureApps() {
+        String potentiallyInsecureQuery =
+            "select application.appid as \"App ID\", " +
+                    "appname as \"App Name\", " +
+                    "genre as \"Genre\", " +
+                    "os as \"OS\" " +
+            "from application, framework, apphasframework " +
+            "where potentiallyinsecure=true " +
+                    "and application.appid=apphasframework.appid " +
+                    "and framework.frameworkname=apphasframework.packagename " +
+            "union " +
+            "select application.appid as \"App ID\", " +
+                    "appname as \"App Name\", " +
+                    "genre as \"Genre\", " +
+                    "os as \"OS\" " +
+            "from application, permission, apphaspermission " +
+            "where potentiallyinsecure=true " +
+                    "and application.appid=apphaspermission.appid " +
+                    "and permission.permissionname=apphaspermission.permissionname " +
+            "order by \"App ID\"";
+        
+        try {
+            PreparedStatement stmt = null;
+            stmt = conn.prepareStatement(potentiallyInsecureQuery);
+            ResultSet rs = stmt.executeQuery();
+            return rs;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
 }
 

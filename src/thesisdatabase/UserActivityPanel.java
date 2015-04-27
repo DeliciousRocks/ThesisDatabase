@@ -185,8 +185,8 @@ public class UserActivityPanel extends javax.swing.JPanel {
     private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
         int year = Integer.parseInt((String)yearComboBox.getSelectedItem());
         int month = monthComboBox.getSelectedIndex();
-        topUsersTable.setModel(DbUtils.resultSetToTableModel(ThesisDatabase.getTopUsersForWeek(5, year, month)));
-        belowQuotaTable.setModel(DbUtils.resultSetToTableModel(ThesisDatabase.getUsersUnderQuotaForWeek(year, month)));
+        topUsersTable.setModel(DbUtils.resultSetToTableModel(ThesisDatabase.getTopUsersForMonth(5, year, month)));
+        belowQuotaTable.setModel(DbUtils.resultSetToTableModel(ThesisDatabase.getUsersUnderQuotaForMonth(year, month)));
     }//GEN-LAST:event_submitButtonActionPerformed
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed

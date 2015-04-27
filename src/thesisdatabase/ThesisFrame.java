@@ -29,10 +29,10 @@ public class ThesisFrame extends java.awt.Frame {
         panels.add(classifyUnknownPermissionsPanel1);
         panels.add(editUserPanel1);
         panels.add(userActivityPanel1);
+        panels.add(potentiallyInsecurePanel1);
         panels.add(classifyUnknownFrameworksPanel1);
         panels.add(viewFrameworksPanel1);
-
-        
+        //panels.add(addUserPanel1);
     }
     
     public void selectPanel(int s)
@@ -62,6 +62,11 @@ public class ThesisFrame extends java.awt.Frame {
         return appPrivilegesPanel2;
     }
 
+    public PotentiallyInsecurePanel getPotentiallyInsecurePanel()
+    {
+        return potentiallyInsecurePanel1;
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -82,6 +87,7 @@ public class ThesisFrame extends java.awt.Frame {
         userActivityPanel1 = new thesisdatabase.UserActivityPanel();
         classifyUnknownFrameworksPanel1 = new thesisdatabase.classifyUnknownFrameworksPanel();
         viewFrameworksPanel1 = new thesisdatabase.ViewFrameworksPanel();
+        potentiallyInsecurePanel1 = new thesisdatabase.PotentiallyInsecurePanel();
 
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -101,6 +107,7 @@ public class ThesisFrame extends java.awt.Frame {
         add(userActivityPanel1, "card11");
         add(classifyUnknownFrameworksPanel1, "card12");
         add(viewFrameworksPanel1, "card13");
+        add(potentiallyInsecurePanel1, "card14");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -126,30 +133,23 @@ public class ThesisFrame extends java.awt.Frame {
     {
         return viewPermissionsPanel1;
     }
-    
-<<<<<<< HEAD
-    
+
+
     public ViewFrameworksPanel getViewFrameworksPanel()
     {
         return viewFrameworksPanel1;
     }
     
     
-=======
->>>>>>> origin/master
      public classifyUnknownPermissionsPanel getViewUNKNOWNPermissionsPanel()
     {
         return classifyUnknownPermissionsPanel1;
     }
-<<<<<<< HEAD
      
       public classifyUnknownFrameworksPanel getViewUNKNOWNFrameworksPanel()
     {
         return classifyUnknownFrameworksPanel1;
     }
-     
-=======
->>>>>>> origin/master
     
     public void loadUserForEditing(String username, String password, int role, String quota) {
         editUserPanel1.setUser(username, password, role, quota);
@@ -166,6 +166,7 @@ public class ThesisFrame extends java.awt.Frame {
     private thesisdatabase.classifyUnknownPermissionsPanel classifyUnknownPermissionsPanel1;
     private thesisdatabase.EditUserPanel editUserPanel1;
     private thesisdatabase.LoginPanel loginPanel2;
+    private thesisdatabase.PotentiallyInsecurePanel potentiallyInsecurePanel1;
     private thesisdatabase.QueriesPanel queriesPanel1;
     private thesisdatabase.UserActivityPanel userActivityPanel1;
     private thesisdatabase.ViewFrameworksPanel viewFrameworksPanel1;

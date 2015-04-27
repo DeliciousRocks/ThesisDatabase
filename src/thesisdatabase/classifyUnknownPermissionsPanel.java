@@ -141,7 +141,7 @@ String permission ="";
         {
           ThesisDatabase.updatePermission(isSecure, permission);
          // perm;
-          QueriesPanel.populateUnknownTable();
+//          QueriesPanel.populateUnknownTable();
 
         }
         catch (SQLException e ) {

@@ -94,6 +94,7 @@
       </Constraints>
     </Component>
     <Component class="thesisdatabase.classifyUnknownFrameworksPanel" name="classifyUnknownFrameworksPanel1">
+    <Component class="thesisdatabase.PotentiallyInsecurePanel" name="potentiallyInsecurePanel1">
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignCardLayout" value="org.netbeans.modules.form.compat2.layouts.DesignCardLayout$CardConstraintsDescription">
           <CardConstraints cardName="card12"/>
